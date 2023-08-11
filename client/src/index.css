@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  overflow: auto;
+}
+
+button {
+  @apply bg-indigo-500 p-2 rounded-lg w-2/5
+}
+
+.card {
+  @apply rounded-lg
+}
+
+.box-shadow {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow {
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 5);
+}
+
+.red {
+  @apply bg-red-500
+}
+
+.blue {
+  @apply bg-blue-500
+}
+
+.green {
+  @apply bg-green-500
+}
+
+.block {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.slide-in {
+  animation: slidein .5s ease;
+  display: flex;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+.slide-out {
+  animation: slideout .5s ease;
+  display: flex;
+}
+
+@keyframes slideout {
+  from {
+    margin-left: 0%;
+  }
+  to {
+    margin-left: -100%;
+  }
+}
+
+.pop-up {
+  animation: popup .5s ease;
+  display: flex;
+}
+
+@keyframes popup {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.pop-down {
+  animation: popdown .5s ease;
+  display: flex;
+}
+
+@keyframes popdown {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 0;
+  }
+}
