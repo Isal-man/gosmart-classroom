@@ -28,6 +28,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -182,13 +184,14 @@ public class AuthController {
      * @method POST /auth/login
      * @access public
      */
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<JwtResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest,
+                                                 BindingResult bindingResult, HttpServletResponse response) {
 
         // Check if validation errors
-        // if (bindingResult.hasErrors()) {
-        //     return ResponseEntity.badRequest().body((JwtResponse) createValidationErrorResponseBody(bindingResult));
-        // }
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body((JwtResponse) createValidationErrorResponseBody(bindingResult));
+        }
 
         // Authenticate user with loginRequest
         Authentication authentication = authenticationManager.authenticate(
@@ -200,6 +203,12 @@ public class AuthController {
 
         // Generate JWT Token from authentication user
         String jwt = jwtUtils.generateJwtToken(authentication);
+
+        // Put token to cookie
+        Cookie cookie = new Cookie("token", jwt);
+        cookie.setMaxAge((int) (jwtUtils.getJwtExpirationMs() / 1000));
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         // Get user
         UserDetailsImpl users = (UserDetailsImpl) authentication.getPrincipal();

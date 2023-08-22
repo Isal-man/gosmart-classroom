@@ -2,6 +2,7 @@ package com.gosmart.classroom.security.jwt;
 
 import com.gosmart.classroom.security.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
+@Data
 public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
