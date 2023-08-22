@@ -39,8 +39,8 @@ public class StudentController {
     * @access private
     */
     @PostMapping
-    public Students insert(@RequestBody Users users) {
-        return studentService.insert(users);
+    public Students insert(@RequestBody String email) {
+        return studentService.insert(email);
     }
 
 }

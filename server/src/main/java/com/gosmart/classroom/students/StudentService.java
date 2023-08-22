@@ -28,7 +28,10 @@ public class StudentService {
     }
 
     // Add student
-    public Students insert(Users users) {
+    public Students insert(String email) {
+
+        Users users = userRepository.findById(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         Students newStudent = new Students();
         newStudent.setId(UUID.randomUUID().toString());

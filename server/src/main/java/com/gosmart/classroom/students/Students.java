@@ -2,7 +2,6 @@ package com.gosmart.classroom.students;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +9,6 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-// @Validated
 public class Students {
 
     @Id
