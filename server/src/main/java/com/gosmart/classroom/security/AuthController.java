@@ -75,90 +75,88 @@ public class AuthController {
             return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
         }
 
-        // // Generate token for verification
-        // Token token = new Token();
-        // token.setToken(UUID.randomUUID().toString());
-        // token.setEmail(request.getEmail());
-        // tokenRepository.save(token);
-        //
-        // // Create link email verification
-        // String verificationLink = ServletUriComponentsBuilder.fromCurrentContextPath()
-        //         .path("/auth/verify?token=" + token.getToken())
-        //         .build()
-        //         .toUriString();
-        //
-        // // Create body email
-        // String emailContent = "<!DOCTYPE html>\n" +
-        //         "<html>\n" +
-        //         "<head>\n" +
-        //         "  <style>\n" +
-        //         "    body {\n" +
-        //         "      margin: 0;\n" +
-        //         "      padding: 0;\n" +
-        //         "      display: flex;\n" +
-        //         "      justify-content: center;\n" +
-        //         "      align-items: center;\n" +
-        //         "      height: 100vh;\n" +
-        //         "      font-family: Arial, sans-serif;\n" +
-        //         "      background-color: #f0f0f0;\n" +
-        //         "    }\n" +
-        //         "\n" +
-        //         "    .email-container {\n" +
-        //         "      text-align: center;\n" +
-        //         "      background-color: #ffffff;\n" +
-        //         "      padding: 20px;\n" +
-        //         "      border-radius: 10px;\n" +
-        //         "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n" +
-        //         "    }\n" +
-        //         "\n" +
-        //         "    .image {\n" +
-        //         "      width: 150px;\n" +
-        //         "      height: 150px;\n" +
-        //         "      margin-bottom: 15px;\n" +
-        //         "      border-radius: 50%;\n" +
-        //         "      object-fit: cover;\n" +
-        //         "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);\n" +
-        //         "    }\n" +
-        //         "\n" +
-        //         "    .message {\n" +
-        //         "      font-size: 16px;\n" +
-        //         "      margin-bottom: 20px;\n" +
-        //         "    }\n" +
-        //         "\n" +
-        //         "    .verify-button {\n" +
-        //         "      display: inline-block;\n" +
-        //         "      padding: 10px 20px;\n" +
-        //         "      background-color: #007bff;\n" +
-        //         "      color: #ffffff;\n" +
-        //         "      border: none;\n" +
-        //         "      border-radius: 8px;\n" +
-        //         "      font-size: 16px;\n" +
-        //         "      cursor: pointer;\n" +
-        //         "      transition: background-color 0.3s ease;\n" +
-        //         "    }\n" +
-        //         "\n" +
-        //         "    .verify-button:hover {\n" +
-        //         "      background-color: #0056b3;\n" +
-        //         "    }\n" +
-        //         "  </style>\n" +
-        //         "</head>\n" +
-        //         "<body>\n" +
-        //         "  <div class=\"email-container\">\n" +
-        //         "    <h2>Email Verification</h2>\n" +
-        //         "    <img src=\"https://firebasestorage.googleapis.com/v0/b/practice-project-8bb4c.appspot.com/o/logo-with-no-color.png?alt=media&token=f73bbf04-9e25-40d9-b5db-b0fdce687674\" alt=\"Student\" class=\"image\">\n" +
-        //         "    <p class=\"message\">Thank you for registering with our application. Click the button below to verify your email.</p>\n" +
-        //         "    <a href=" + verificationLink + " class=\"verify-button\">Verify</a>\n" +
-        //         "  </div>\n" +
-        //         "</body>\n" +
-        //         "</html>";
-        //
-        // // send email
-        // emailService.sendEmail(request.getEmail(), "Email Verification", emailContent);
-        //
-        // // Save user
-        // return ResponseEntity.ok(userService.insert(request));
+        // Generate token for verification
+        Token token = new Token();
+        token.setToken(UUID.randomUUID().toString());
+        token.setEmail(request.getEmail());
+        tokenRepository.save(token);
 
-        return ResponseEntity.ok().body("Berhasil");
+        // Create link email verification
+        String verificationLink = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/auth/verify?token=" + token.getToken())
+                .build()
+                .toUriString();
+
+        // Create body email
+        String emailContent = "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "  <style>\n" +
+                "    body {\n" +
+                "      margin: 0;\n" +
+                "      padding: 0;\n" +
+                "      display: flex;\n" +
+                "      justify-content: center;\n" +
+                "      align-items: center;\n" +
+                "      height: 100vh;\n" +
+                "      font-family: Arial, sans-serif;\n" +
+                "      background-color: #f0f0f0;\n" +
+                "    }\n" +
+                "\n" +
+                "    .email-container {\n" +
+                "      text-align: center;\n" +
+                "      background-color: #ffffff;\n" +
+                "      padding: 20px;\n" +
+                "      border-radius: 10px;\n" +
+                "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n" +
+                "    }\n" +
+                "\n" +
+                "    .image {\n" +
+                "      width: 150px;\n" +
+                "      height: 150px;\n" +
+                "      margin-bottom: 15px;\n" +
+                "      border-radius: 50%;\n" +
+                "      object-fit: cover;\n" +
+                "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);\n" +
+                "    }\n" +
+                "\n" +
+                "    .message {\n" +
+                "      font-size: 16px;\n" +
+                "      margin-bottom: 20px;\n" +
+                "    }\n" +
+                "\n" +
+                "    .verify-button {\n" +
+                "      display: inline-block;\n" +
+                "      padding: 10px 20px;\n" +
+                "      background-color: #007bff;\n" +
+                "      color: #ffffff;\n" +
+                "      border: none;\n" +
+                "      border-radius: 8px;\n" +
+                "      font-size: 16px;\n" +
+                "      cursor: pointer;\n" +
+                "      transition: background-color 0.3s ease;\n" +
+                "    }\n" +
+                "\n" +
+                "    .verify-button:hover {\n" +
+                "      background-color: #0056b3;\n" +
+                "    }\n" +
+                "  </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "  <div class=\"email-container\">\n" +
+                "    <h2>Email Verification</h2>\n" +
+                "    <img src=\"https://firebasestorage.googleapis.com/v0/b/practice-project-8bb4c.appspot.com/o/logo-with-no-color.png?alt=media&token=f73bbf04-9e25-40d9-b5db-b0fdce687674\" alt=\"Student\" class=\"image\">\n" +
+                "    <p class=\"message\">Thank you for registering with our application. Click the button below to verify your email.</p>\n" +
+                "    <a href=" + verificationLink + " class=\"verify-button\">Verify</a>\n" +
+                "  </div>\n" +
+                "</body>\n" +
+                "</html>";
+
+        // send email
+        emailService.sendEmail(request.getEmail(), "Email Verification", emailContent);
+
+        // Save user
+        return ResponseEntity.ok(userService.insert(request));
 
     }
 
