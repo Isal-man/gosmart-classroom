@@ -1,0 +1,1 @@
+export const APP_BASE_URL = "https://gosmart-api.azurewebsites.net/api/v1"

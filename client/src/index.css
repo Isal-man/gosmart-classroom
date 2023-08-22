@@ -7,11 +7,28 @@ body {
 }
 
 button {
-  @apply bg-indigo-500 p-2 rounded-lg w-2/5
+  @apply bg-indigo-500 p-2 rounded-lg w-2/5;
 }
 
 .card {
-  @apply rounded-lg
+  @apply rounded-lg;
+}
+
+.tooltip {
+  @apply relative inline-block;
+
+  > .tooltiptext {
+    @apply invisible text-white text-center rounded-lg p-2 text-sm bg-slate-500 w-24;
+
+    /* Position the tooltip */
+    @apply absolute z-10 top-full left-1/2 -ml-14;
+  }
+
+  &:hover {
+    > .tooltiptext {
+      visibility: visible;
+    }
+  }
 }
 
 .box-shadow {
@@ -23,15 +40,15 @@ button {
 }
 
 .red {
-  @apply bg-red-500
+  @apply bg-red-500;
 }
 
 .blue {
-  @apply bg-blue-500
+  @apply bg-blue-500;
 }
 
 .green {
-  @apply bg-green-500
+  @apply bg-green-500;
 }
 
 .block {
@@ -43,7 +60,7 @@ button {
 }
 
 .slide-in {
-  animation: slidein .5s ease;
+  animation: slidein 0.5s ease;
   display: flex;
 }
 
@@ -57,7 +74,7 @@ button {
 }
 
 .slide-out {
-  animation: slideout .5s ease;
+  animation: slideout 0.5s ease;
   display: flex;
 }
 
@@ -71,7 +88,7 @@ button {
 }
 
 .pop-up {
-  animation: popup .5s ease;
+  animation: popup 0.5s ease;
   display: flex;
 }
 
@@ -85,7 +102,7 @@ button {
 }
 
 .pop-down {
-  animation: popdown .5s ease;
+  animation: popdown 0.5s ease;
   display: flex;
 }
 

@@ -1,0 +1,35 @@
+server:
+  port: 7060
+  error:
+    include-stacktrace: never
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gosmart
+    username: postgres
+    password: islman123
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL82Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: faiskweren7@gmail.com
+    password: bfxb udbg zapp otzu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: 7e92a0869758b34adae27ec76e5be94147f391cb0c749a5505a089330275c1712c94aba4f1183d8763ab310dd34fc40a38b61524b2840b2afa1b03973e52f5bf
+  expiration: 864000000
+
+
+

@@ -1,21 +1,26 @@
-import { Button } from "primereact/button";
 import { useEffect } from "react";
 import { useState } from "react";
 
-export const ClassCard = ({gambar, nama, jadwal, guruId}) => {
+// config
+import { APP_BASE_URL } from "../config/constant";
 
+// icons
+import { Button } from "primereact/button";
+import { BiFolder, BiTask } from "react-icons/bi";
+
+export const ClassCard = ({ gambar, nama, jadwal, guruId }) => {
   // state
   const [guru, setGuru] = useState({});
 
   useEffect(() => {
     const load = async () => {
-      const response = await fetch("http://localhost:7060/api/v1/guru");
+      const response = await fetch(APP_BASE_URL + "/guru");
       const result = await response.json();
-      setGuru(result)
-    }
+      setGuru(result);
+    };
 
     load();
-  }, [])
+  }, []);
 
   // style
   const BackgroundStyle = {
@@ -25,6 +30,8 @@ export const ClassCard = ({gambar, nama, jadwal, guruId}) => {
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
   };
+  const buttonStyle = "text-2xl rounded-full bg-transparent hover:bg-slate-200 w-10 h-1/6 tooltip"
+
   return (
     <div className="card box-shadow flex flex-col w-5/6 md:w-[45%] lg:w-[30%] xl:w-[22%]">
       <section
@@ -46,8 +53,18 @@ export const ClassCard = ({gambar, nama, jadwal, guruId}) => {
         />
       </section>
       <section className="flex justify-end gap-2 p-2 border-t border-t-slate-400 w-full h-1/4">
-        <Button icon="pi pi-book" rounded text severity="secondary" placeholder="Right" tooltip="list tugas" tooltipOptions={{ position: 'mouse' }} />
-        <Button icon="pi pi-folder" rounded text severity="secondary" placeholder="Right" tooltip="folder kelas" tooltipOptions={{ position: 'mouse' }} />
+        <button className={buttonStyle}>
+          <BiTask />
+          <span className="tooltiptext">
+            list tugas
+          </span>
+        </button>
+        <button className={buttonStyle}>
+          <BiFolder />
+          <span className="tooltiptext">
+            folder kelas
+          </span>
+        </button>
       </section>
     </div>
   );

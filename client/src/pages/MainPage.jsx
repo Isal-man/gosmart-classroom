@@ -15,7 +15,7 @@ export const MainPage = () => {
     <SidebarContext.Provider value={{ sidebarStyle, setSidebarStyle, block, setBlock }}>
       <Header />
       <Sidebar />
-      <main className="flex flex-col p-2 justify-center w-full h-full">
+      <main className="flex flex-col justify-center p-2 w-full h-full">
         <Home />
       </main>
     </SidebarContext.Provider>

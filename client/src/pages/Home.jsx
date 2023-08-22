@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ClassCard } from "../components"
 import { useEffect } from "react";
+import { APP_BASE_URL } from "../config/constant";
 
 export const Home = () => {
   // state
@@ -8,7 +9,7 @@ export const Home = () => {
 
   useEffect(() => {
     const load = async () => {
-      const response = await fetch("http://localhost:7060/api/v1/kelas");
+      const response = await fetch(APP_BASE_URL + "/kelas");
       const result = await response.json();
       setData(result);
     }

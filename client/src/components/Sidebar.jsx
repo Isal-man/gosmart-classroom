@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { SidebarContext } from "../pages/MainPage";
 import { useEffect } from "react";
 import { useState } from "react";
+import { APP_BASE_URL } from "../config/constant";
 
 export const Sidebar = () => {
   // context
@@ -26,13 +27,13 @@ export const Sidebar = () => {
 
   useEffect(() => {
     const loadAkun = async () => {
-      const response = await fetch("http://localhost:7060/api/v1/akun");
+      const response = await fetch(APP_BASE_URL + "/akun");
       const result = await response.json();
       setAkun(result);
     };
 
     const loadKelas = async () => {
-      const response = await fetch("http://localhost:7060/api/v1/kelas");
+      const response = await fetch(APP_BASE_URL + "/kelas");
       const result = await response.json();
       setKelas(result);
     };
