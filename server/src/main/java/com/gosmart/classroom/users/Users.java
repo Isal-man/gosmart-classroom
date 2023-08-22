@@ -17,4 +17,5 @@ public class Users {
     private String image;
     private String roles;
     private Boolean isVerified;
+
 }

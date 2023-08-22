@@ -85,8 +85,6 @@ public class AuthController {
                 .build()
                 .toUriString();
 
-        System.out.println(verificationLink);
-
         // Create body email
         String emailContent = "<!DOCTYPE html>\n" +
                 "<html>\n" +

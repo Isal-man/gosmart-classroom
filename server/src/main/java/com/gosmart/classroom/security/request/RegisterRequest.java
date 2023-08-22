@@ -23,7 +23,7 @@ public class RegisterRequest {
     @NotBlank(message = "Full name cannot be empty")
     @Size(min = 3, max = 50, message = "Full name must have at least 3 characters and a maximum of 50 " +
             "characters")
-    @Pattern(regexp = "^(?:(?!([A-Za-z])\\1\\1)(?!.*  )(?!.*''''.*).)*$", message = "Only letters are allowed")
+    @Pattern(regexp = "^(?![\\s'])((?!.*[a-zA-Z]{3}).)*[a-zA-Z'][a-zA-Z'\\s]*[^\\s']$", message = "Invalid name format")
     private String fullName;
 
     @NotBlank(message = "Phone number cannot be empty")
