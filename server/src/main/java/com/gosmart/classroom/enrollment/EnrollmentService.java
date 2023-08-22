@@ -27,18 +27,24 @@ public class EnrollmentService {
 
     // Get all data by UserId as teacher
     public List<Enrollments> findAllByTeacher(String email) {
-        return enrollmentRepository.findAllByUsersAndIsTeacher(email);
+        return enrollmentRepository.findAllByUsersEmailAndIsTeacher(email,true);
     }
 
     // Get all data by UserId as student
     public List<Enrollments> findAllByStudent(String email) {
-        return enrollmentRepository.findAllByUsersAndIsStudent(email);
+        return enrollmentRepository.findAllByUsersEmailAndIsStudent(email, true);
     }
 
     // Get data by ID
     public Enrollments findById(String id) {
         return enrollmentRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Enrollment not found with ID: " + id));
+    }
+
+    // Get data by courseId
+    public Enrollments findByCourseId(String id) {
+        return enrollmentRepository.findByCoursesId(id)
+                .orElseThrow(() -> new  IllegalStateException("Enrollment not found with courseId: " + id));
     }
 
     // Add enrollment teacher
@@ -54,15 +60,23 @@ public class EnrollmentService {
     }
 
     // Add enrollment student
-    public void student(String email, String courseId) {
+    public void student(String email, String courseCode) {
+
         Enrollments newEnrollment = new Enrollments();
         newEnrollment.setId(UUID.randomUUID().toString());
         newEnrollment.setUsers(getUser(email));
-        newEnrollment.setCourses(getCourse(courseId));
+        newEnrollment.setCourses(getCourse(courseCode));
         newEnrollment.setIsStudent(true);
         newEnrollment.setEnrollmentDate(new Date());
 
         enrollmentRepository.save(newEnrollment);
+    }
+
+    // Delete all enrollment by courseId
+    public void delete(String id) {
+
+        enrollmentRepository.deleteAllByCoursesId(id);
+
     }
 
     public Users getUser(String email) {
@@ -70,9 +84,9 @@ public class EnrollmentService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
-    public Courses getCourse(String courseId) {
-        return courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalStateException("Course not found with ID: " + courseId));
+    public Courses getCourse(String courseCode) {
+        return courseRepository.findByClassCode(courseCode)
+                .orElseThrow(() -> new IllegalStateException("Course not found with ID: " + courseCode));
     }
 
 }

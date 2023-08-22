@@ -34,7 +34,8 @@ public class TeacherService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         if (teacherRepository.existsByEmail(email)) {
-            throw new IllegalStateException("Email already taken");
+            return teacherRepository.findByEmail(email)
+                    .orElseThrow();
         }
 
         Teachers newTeacher = new Teachers();

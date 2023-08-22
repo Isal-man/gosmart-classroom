@@ -65,6 +65,7 @@ public class AuthController {
      * */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) throws MessagingException, UnsupportedEncodingException {
+
         // Check if email already registered
         if (userRepository.existsById(request.getEmail())) {
             return ResponseEntity.badRequest().body("Email already registered");
@@ -74,6 +75,7 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
         }
+
 
         // Generate token for verification
         Token token = new Token();
@@ -157,7 +159,6 @@ public class AuthController {
 
         // Save user
         return ResponseEntity.ok(userService.insert(request));
-
     }
 
     /*

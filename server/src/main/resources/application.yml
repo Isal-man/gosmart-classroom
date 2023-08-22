@@ -18,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: faiskweren7@gmail.com
-    password: bfxb udbg zapp otzu
+    username: gosmartclassroom@gmail.com
+    password: dcta vzng efig swup
     properties:
       mail:
         smtp:

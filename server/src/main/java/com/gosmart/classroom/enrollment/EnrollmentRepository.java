@@ -4,10 +4,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollments, String> {
-    List<Enrollments> findAllByUsersAndIsTeacher(String email);
 
-    List<Enrollments> findAllByUsersAndIsStudent(String email);
+    List<Enrollments> findAllByUsersEmailAndIsTeacher(String email, boolean b);
+
+    List<Enrollments> findAllByUsersEmailAndIsStudent(String email, boolean b);
+
+    Optional<Enrollments> findByCoursesId(String id);
+
+    void deleteAllByCoursesId(String id);
+
 }

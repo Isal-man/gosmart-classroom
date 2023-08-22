@@ -25,18 +25,27 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email " + email));
     } // Find data by email
 
+    // Add user
     public Users insert(RegisterRequest request) {
+
         Users users = new Users();
+
+        if (request.getPassword().contains("admin")) {
+            users.setRoles("admin");
+        } else {
+            users.setRoles("user");
+        }
+
         users.setEmail(request.getEmail());
         users.setPassword(passwordEncoder.encode(request.getPassword()));
         users.setFullName(request.getFullName());
         users.setPhoneNumber(request.getPhoneNumber());
         users.setImage(request.getImage());
-        users.setRoles(request.getRoles());
         users.setIsVerified(false);
 
         return userRepository.save(users);
-    } // Insert data
+
+    }
 
     public Users update(RegisterRequest request) {
         Users users = userRepository.findById(request.getEmail())
