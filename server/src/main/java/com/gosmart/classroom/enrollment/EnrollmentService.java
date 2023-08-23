@@ -36,6 +36,11 @@ public class EnrollmentService {
         return enrollmentRepository.findAllByUsersEmailAndIsStudent(email, true);
     }
 
+    // Get all data by student participant
+    public List<Enrollments> findAllParticipant(String courseId) {
+        return enrollmentRepository.findAllByCourses_Id(courseId);
+    }
+
     // Get data by ID
     public Enrollments findById(String id) {
         return enrollmentRepository.findById(id)

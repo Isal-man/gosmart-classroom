@@ -28,7 +28,7 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    // Get all data by teacher
+    // Get all data by user teacher
     public List<Courses> findAllByTeacher(String email) {
         List<Enrollments> enrollments = enrollmentService.findAllByTeacher(email);
         List<Courses> listCourse = new ArrayList<>();
@@ -43,7 +43,7 @@ public class CourseService {
         return listCourse;
     }
 
-    // Get all data by student
+    // Get all data by user student
     public List<Courses> findAllByStudent(String email) {
         List<Enrollments> enrollments = enrollmentService.findAllByStudent(email);
         List<Courses> listCourse = new ArrayList<>();
