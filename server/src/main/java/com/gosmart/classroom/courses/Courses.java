@@ -15,12 +15,10 @@ public class Courses {
 
     @Id
     private String id;
-    // private String classCode;
     private String name;
     private String schedule;
     private String image;
     private String theme;
     private Boolean isArchived = false;
-
 
 }

@@ -17,10 +17,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollments, String>
 
     void deleteAllByCoursesId(String id);
 
-    boolean existsByCoursesIdAndUsersEmailAndIsStudent(String course, String email, Boolean b);
-
-    List<Enrollments> findAllByCourses_IdAndIsStudent(String courseId, boolean b);
-
     boolean existsByCoursesIdAndUsersEmail(String course, String email);
 
     List<Enrollments> findAllByCourses_Id(String courseId);

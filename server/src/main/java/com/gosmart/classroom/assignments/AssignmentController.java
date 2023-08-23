@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/test/assignments")
+@RequestMapping("/api/v1/assignments")
 @RequiredArgsConstructor
 public class AssignmentController {
 
