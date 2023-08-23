@@ -33,12 +33,13 @@ public class StudentService {
         Users users = userRepository.findById(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
+        if (studentRepository.existsByUsers(users)) {
+            return studentRepository.findByUsers(users);
+        }
+
         Students newStudent = new Students();
         newStudent.setId(UUID.randomUUID().toString());
-        newStudent.setFullName(users.getFullName());
-        newStudent.setEmail(users.getEmail());
-        newStudent.setPhoneNumber(users.getPhoneNumber());
-        newStudent.setImage(users.getImage());
+        newStudent.setUsers(users);
 
         return studentRepository.save(newStudent);
 

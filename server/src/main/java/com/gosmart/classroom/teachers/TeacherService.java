@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.UUID;
 
 @Service
@@ -33,17 +34,15 @@ public class TeacherService {
         Users users = userRepository.findById(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        if (teacherRepository.existsByEmail(email)) {
-            return teacherRepository.findByEmail(email)
-                    .orElseThrow();
+        if (teacherRepository.existsByUsers(users)) {
+            return teacherRepository.findByUsers(users)
+                    .orElseThrow(() -> new MissingResourceException("Teacher not found", Teachers.class.toString(),
+                            "Teacher"));
         }
 
         Teachers newTeacher = new Teachers();
         newTeacher.setId(UUID.randomUUID().toString());
-        newTeacher.setFullName(users.getFullName());
-        newTeacher.setEmail(users.getEmail());
-        newTeacher.setPhoneNumber(users.getPhoneNumber());
-        newTeacher.setImage(users.getImage());
+        newTeacher.setUsers(users);
 
         return teacherRepository.save(newTeacher);
     }

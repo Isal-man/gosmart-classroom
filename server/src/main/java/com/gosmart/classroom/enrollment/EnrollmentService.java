@@ -5,6 +5,7 @@ import com.gosmart.classroom.courses.Courses;
 import com.gosmart.classroom.users.UserRepository;
 import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +86,7 @@ public class EnrollmentService {
     }
 
     public Courses getCourse(String courseCode) {
-        return courseRepository.findByClassCode(courseCode)
+        return courseRepository.findByIdContains(courseCode)
                 .orElseThrow(() -> new IllegalStateException("Course not found with ID: " + courseCode));
     }
 

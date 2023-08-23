@@ -5,7 +5,6 @@ import com.gosmart.classroom.enrollment.Enrollments;
 import com.gosmart.classroom.students.StudentService;
 import com.gosmart.classroom.teachers.TeacherService;
 import com.gosmart.classroom.users.UserRepository;
-import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -74,7 +73,7 @@ public class CourseService {
         // Create new course
         Courses newCourse = new Courses();
         newCourse.setId(id);
-        newCourse.setClassCode(id.substring(0, 8));
+        // newCourse.setClassCode(id.substring(0, 8));
         newCourse.setName(courseRequest.getName());
         newCourse.setSchedule(courseRequest.getSchedule());
         newCourse.setImage(courseRequest.getImage());
@@ -91,20 +90,20 @@ public class CourseService {
         teacherService.insert(courseRequest.getEmail());
 
         // Create enrollment of teacher
-        enrollmentService.teacher(courseRequest.getEmail(), newCourse.getClassCode());
+        enrollmentService.teacher(courseRequest.getEmail(), id);
 
         return newCourse;
     }
 
     // Add course for student
-    public String student(String email, String courseCode) {
+    public void student(String email, String courseCode) {
 
         // Check if user is exists
-        Users users = userRepository.findById(email)
+        userRepository.findById(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         // Check if course is exists
-        Courses code = courseRepository.findByClassCode(courseCode)
+        courseRepository.findByIdContains(courseCode)
                 .orElseThrow(() -> new IllegalStateException("Course not found with class code: " + courseCode));
 
         // Make user as student
@@ -112,8 +111,6 @@ public class CourseService {
 
         // Create enrollment of student
         enrollmentService.student(email, courseCode);
-
-        return "Student has been added to course";
 
     }
 

@@ -3,6 +3,7 @@ package com.gosmart.classroom.courses;
 import com.gosmart.classroom.enrollment.EnrollmentRepository;
 import com.gosmart.classroom.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -10,13 +11,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/test/courses")
+@RequestMapping("/api/v1/courses")
 @RequiredArgsConstructor
 public class CourseController {
 
     private final CourseService courseService;
     private final EnrollmentRepository enrollmentRepository;
-    private final UserRepository userRepository;
 
     /*
      * @detail Get all data
@@ -42,7 +42,7 @@ public class CourseController {
             return courseService.findAllByStudent(email);
         }
 
-        return null;
+        return courseService.findAll();
     }
 
     /*
@@ -65,6 +65,9 @@ public class CourseController {
             required = false) String email, @RequestParam("cc") String code) {
 
         courseService.findById(courseId);
+        if (findStudentHasEnroll(courseId, email, true)) {
+            return new RedirectView("https://isal-blog.vercel.app/");
+        }
 
         if (email == null) {
            return new RedirectView("https://isal-blog.vercel.app/");
@@ -73,6 +76,10 @@ public class CourseController {
         courseService.student(email, code);
 
         return new RedirectView("https://isal-blog.vercel.app/");
+    }
+
+    public boolean findStudentHasEnroll(String course, String email, Boolean b) {
+        return enrollmentRepository.existsByCoursesIdAndUsersEmailAndIsStudent(course, email, b);
     }
 
 }
