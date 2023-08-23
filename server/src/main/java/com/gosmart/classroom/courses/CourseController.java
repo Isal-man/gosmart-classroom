@@ -65,6 +65,7 @@ public class CourseController {
             required = false) String email, @RequestParam("cc") String code) {
 
         courseService.findById(courseId);
+
         if (findStudentHasEnroll(courseId, email, true)) {
             return new RedirectView("https://isal-blog.vercel.app/");
         }
