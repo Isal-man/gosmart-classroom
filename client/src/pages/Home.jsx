@@ -5,16 +5,18 @@ import { APP_BASE_URL } from "../config/constant";
 
 export const Home = () => {
   // state
-  const [data, setData] = useState([]);
+  const [courseTeacher, setCourseTeacher] = useState([]);
+  const [courseStudent, setCourseStudent] = useState([]);
 
   useEffect(() => {
-    const load = async () => {
-      const response = await fetch(APP_BASE_URL + "/kelas");
+
+    const loadCoursesTeacher = async () => {
+      const response = await fetch(APP_BASE_URL + "/courses");
       const result = await response.json();
-      setData(result);
+      setCourseTeacher(result);
     }
 
-    load();
+    loadCoursesTeacher();
   }, [])
 
   return (

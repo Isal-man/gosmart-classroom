@@ -20,7 +20,6 @@ import java.util.Map;
 public class AssignmentController {
 
     private final AssignmentService assignmentService;
-    private final CourseService courseService;
 
     /*
     * @detail Get all assignment

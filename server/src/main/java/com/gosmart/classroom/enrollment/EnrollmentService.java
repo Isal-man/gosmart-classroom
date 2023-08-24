@@ -1,8 +1,10 @@
 package com.gosmart.classroom.enrollment;
 
 import com.gosmart.classroom.courses.CourseRepository;
+import com.gosmart.classroom.courses.CourseService;
 import com.gosmart.classroom.courses.Courses;
 import com.gosmart.classroom.users.UserRepository;
+import com.gosmart.classroom.users.UserService;
 import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class EnrollmentService {
 
-    private final  EnrollmentRepository enrollmentRepository;
+    private final EnrollmentRepository enrollmentRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
@@ -51,6 +54,19 @@ public class EnrollmentService {
     public Enrollments findByCourseId(String id) {
         return enrollmentRepository.findByCoursesId(id)
                 .orElseThrow(() -> new  IllegalStateException("Enrollment not found with courseId: " + id));
+    }
+
+    // Get data by User email and Course ID
+    public Enrollments findByUsersEmailAndCourses_Id(String email, String id) {
+        // Check if user exists
+        Users users = getUser(email);
+
+        // Check if course exists
+        Courses courses = getCourse(id);
+
+        return enrollmentRepository.findByUsersEmailAndCourses_Id(users.getEmail(), courses.getId())
+                .orElseThrow(() -> new MissingResourceException("Enrollment not found", Enrollments.class.toString(),
+                        "Enrollment user email and course id"));
     }
 
     // Add enrollment teacher

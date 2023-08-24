@@ -3,6 +3,7 @@ package com.gosmart.classroom.assignments;
 import com.gosmart.classroom.courses.CourseService;
 import com.gosmart.classroom.courses.Courses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
+    @Lazy
     private final CourseService courseService;
 
     // Get all assignment

@@ -20,4 +20,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollments, String>
     boolean existsByCoursesIdAndUsersEmail(String course, String email);
 
     List<Enrollments> findAllByCourses_Id(String courseId);
+
+    Optional<Enrollments> findByUsersEmailAndCourses_Id(String email, String id);
 }

@@ -4,6 +4,7 @@ import com.gosmart.classroom.enrollment.EnrollmentRepository;
 import com.gosmart.classroom.security.jwt.JwtResponse;
 import com.gosmart.classroom.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

@@ -1,1 +1,1 @@
-export const APP_BASE_URL = "https://gosmart-api.azurewebsites.net/api/v1"
+export const APP_BASE_URL = "https://localhost:7060/api/v1"

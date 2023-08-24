@@ -6,6 +6,7 @@ import com.gosmart.classroom.students.StudentService;
 import com.gosmart.classroom.teachers.TeacherService;
 import com.gosmart.classroom.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    @Lazy
     private final EnrollmentService enrollmentService;
     private final UserRepository userRepository;
     private final TeacherService teacherService;

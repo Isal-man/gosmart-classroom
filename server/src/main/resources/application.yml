@@ -26,10 +26,23 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 jwt:
   secret: 7e92a0869758b34adae27ec76e5be94147f391cb0c749a5505a089330275c1712c94aba4f1183d8763ab310dd34fc40a38b61524b2840b2afa1b03973e52f5bf
   expiration: 864000000
+
+firebase:
+  apiKey: AIzaSyDZ1_MZDHuwyFL5_rGObKR6g2uIgPsGx1I
+  authDomain: gosmart-classroom.firebaseapp.com
+  projectId: gosmart-classroom
+  storageBucket: gosmart-classroom.appspot.com
+  messagingSenderId: 903743303368
+  appId: 1:903743303368:web:7dfc079f906142b9d77ffd
+  measurementId: G-FSTMF7PMJS
 
 
 
