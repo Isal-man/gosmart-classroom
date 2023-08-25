@@ -1,10 +1,7 @@
 package com.gosmart.classroom.courses;
 
 import com.gosmart.classroom.enrollment.EnrollmentRepository;
-import com.gosmart.classroom.security.jwt.JwtResponse;
-import com.gosmart.classroom.users.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -61,7 +58,7 @@ public class CourseController {
 
         // Check if validation errors
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body((JwtResponse) createValidationErrorResponseBody(bindingResult));
+            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
         }
 
         return ResponseEntity.ok(courseService.insert(request));

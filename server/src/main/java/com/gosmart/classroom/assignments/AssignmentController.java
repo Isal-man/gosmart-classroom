@@ -1,8 +1,5 @@
 package com.gosmart.classroom.assignments;
 
-import com.gosmart.classroom.courses.CourseService;
-import com.gosmart.classroom.courses.Courses;
-import com.gosmart.classroom.security.jwt.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

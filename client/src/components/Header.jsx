@@ -5,8 +5,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 
 // context
-import { SidebarContext } from "../pages/MainPage";
 import { useState } from "react";
+import { SidebarContext } from "../App";
 
 export const Header = () => {
   // context
@@ -51,7 +51,13 @@ export const Header = () => {
           <button className={buttonStyle} onClick={handleSidebarStyle}>
             <FiMenu />
           </button>
-          <img src="/logo-no-background.png" className="w-3/5 md:w-1/3 h-full md:h-4/5 lg:w-1/5" />
+          <section>
+            <img
+              src="/logo-with-no-color.png"
+              className="w-3/5 md:w-1/3 h-full md:h-4/5 lg:w-1/5"
+            />
+            <p>Gosmart Classroom</p>
+          </section>
         </section>
         <section>
           <button className={buttonStyle} onClick={handleSectionClassStyle}>
@@ -64,7 +70,9 @@ export const Header = () => {
           className={`fixed top-0 left-0 w-screen h-screen`}
           onClick={handleSectionClassStyle}
         >
-          <section className={`card ${sectionClassStyle} hidden absolute top-16 right-2 lg:right-8 xl:right-12 flex-col justify-center gap-2 bg-slate-100 box-shadow w-40 h-32`}>
+          <section
+            className={`card ${sectionClassStyle} hidden absolute top-16 right-2 lg:right-8 xl:right-12 flex-col justify-center gap-2 bg-slate-100 box-shadow w-40 h-32`}
+          >
             <button className={btnStyle}>Gabung kelas</button>
             <button className={btnStyle}>Buat kelas</button>
           </section>

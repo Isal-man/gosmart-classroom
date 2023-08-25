@@ -1,6 +1,5 @@
 package com.gosmart.classroom.teachers;
 
-import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

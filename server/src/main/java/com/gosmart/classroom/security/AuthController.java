@@ -3,7 +3,6 @@ package com.gosmart.classroom.security;
 import com.gosmart.classroom.email.EmailService;
 import com.gosmart.classroom.email.Token;
 import com.gosmart.classroom.email.TokenRepository;
-import com.gosmart.classroom.security.jwt.JwtResponse;
 import com.gosmart.classroom.security.jwt.JwtUtils;
 import com.gosmart.classroom.security.request.LoginRequest;
 import com.gosmart.classroom.security.request.RegisterRequest;
@@ -11,8 +10,9 @@ import com.gosmart.classroom.security.service.UserDetailsImpl;
 import com.gosmart.classroom.users.UserRepository;
 import com.gosmart.classroom.users.UserService;
 import com.gosmart.classroom.users.Users;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +28,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
@@ -186,12 +186,12 @@ public class AuthController {
      * @access public
      */
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest,
-                                                 BindingResult bindingResult, HttpServletResponse response) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest,
+                                                 BindingResult bindingResult, HttpServletResponse response) throws JwtException {
 
         // Check if validation errors
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body((JwtResponse) createValidationErrorResponseBody(bindingResult));
+            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
         }
 
         // Authenticate user with loginRequest
@@ -208,16 +208,27 @@ public class AuthController {
         // Put token to cookie
         Cookie cookie = new Cookie("token", jwt);
         cookie.setMaxAge((int) (jwtUtils.getJwtExpirationMs() / 1000));
-        cookie.setPath("/");
+        cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
         // Get user
         UserDetailsImpl users = (UserDetailsImpl) authentication.getPrincipal();
 
-        // Return JWT Response
-        return ResponseEntity.ok().body(new JwtResponse(users.getUsername(), users.getFullName(), jwt));
+        // Return user detail response
+        return ResponseEntity.ok().body(users);
 
     }
+
+    @GetMapping("/get-token")
+    public ResponseEntity<?> getToken(@CookieValue(name = "token") String token) {
+
+        if (token.length() > 0) {
+            return ResponseEntity.ok(token);
+        }
+
+        return ResponseEntity.badRequest().body("User not logged in");
+    }
+
 
     // Get detail from validation errors
     private Map<String, String> createValidationErrorResponseBody(BindingResult bindingResult) {

@@ -1,30 +1,30 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-// config
-import { APP_BASE_URL } from "../config/constant";
-
 // icons
 import { Button } from "primereact/button";
 import { BiFolder, BiTask } from "react-icons/bi";
 
-export const ClassCard = ({ gambar, nama, jadwal, guruId }) => {
+export const ClassCard = ({ id, name, schedule, image, theme, users }) => {
+  // basic variable
+  const url = image || "https://firebasestorage.googleapis.com/v0/b/gosmart-classroom.appspot.com/o/logo-with-color.jpg?alt=media&token=0abf7ac1-ba7c-4cfd-992c-b8deb13fdf84";
+  
   // state
-  const [guru, setGuru] = useState({});
+  const [teacher, setTeacher] = useState(users);
 
-  useEffect(() => {
-    const load = async () => {
-      const response = await fetch(APP_BASE_URL + "/guru");
-      const result = await response.json();
-      setGuru(result);
-    };
+  // useEffect(() => {
+  //   const load = async () => {
+  //     const response = await fetch(APP_BASE_URL + "/guru");
+  //     const result = await response.json();
+  //     setGuru(result);
+  //   };
 
-    load();
-  }, []);
+  //   load();
+  // }, []);
 
   // style
   const BackgroundStyle = {
-    backgroundImage: `url(${gambar})`,
+    backgroundImage: `url(${url})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     borderTopRightRadius: 8,
@@ -39,11 +39,11 @@ export const ClassCard = ({ gambar, nama, jadwal, guruId }) => {
         style={BackgroundStyle}
       >
         <section>
-          <p className="text-xl">{nama}</p>
-          <p className="text-sm">{jadwal}</p>
+          <p className="text-xl">{name}</p>
+          <p className="text-sm">{schedule}</p>
         </section>
         <section>
-          <p className="text-base">{guru?.nama}</p>
+          <p className="text-base">{teacher?.name}</p>
         </section>
       </section>
       <section className="p-2 h-32">

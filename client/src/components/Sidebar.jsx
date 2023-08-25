@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 
 // icons
 import {
-  AiFillCopyrightCircle,
   AiOutlineHome,
   AiOutlineSetting,
   AiTwotoneCalendar,
@@ -11,35 +10,40 @@ import { BiArchiveIn } from "react-icons/bi";
 import { useContext } from "react";
 
 // context
-import { SidebarContext } from "../pages/MainPage";
 import { useEffect } from "react";
 import { useState } from "react";
-import { APP_BASE_URL } from "../config/constant";
+import { SidebarContext } from "../App";
+import { useOutletContext } from "react-router-dom";
+import { api } from "../services/ApiService";
 
-export const Sidebar = () => {
+export const Sidebar = ({ user, token }) => {
   // context
   const { sidebarStyle, setSidebarStyle, block, setBlock } =
     useContext(SidebarContext);
 
   // state
-  const [akun, setAkun] = useState([]);
-  const [kelas, setKelas] = useState([]);
+  const [courseTeacher, setCourseTeacher] = useState([]);
+  const [courseStudent, setCourseStudent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const loadAkun = async () => {
-      const response = await fetch(APP_BASE_URL + "/akun");
-      const result = await response.json();
-      setAkun(result);
+    const load = async () => {
+      setIsLoading(true);
+
+      console.log(token);
+
+      const getTeacherCourses = await api.get("api/v1/courses/s/teacher?email=faiskweren7@gmail.com", token)
+      const teacherCourses = await getTeacherCourses.json();
+      setCourseTeacher(teacherCourses);
+
+      const getStudentCourses = await api.get("api/v1/courses/s/student?email=faiskweren7@gmail.com", token);
+      const studentCourses = await getStudentCourses.json();
+      setCourseStudent(studentCourses);
+
+      setIsLoading(false);
     };
 
-    const loadKelas = async () => {
-      const response = await fetch(APP_BASE_URL + "/kelas");
-      const result = await response.json();
-      setKelas(result);
-    };
-
-    loadAkun();
-    loadKelas();
+    load();
   }, []);
 
   // style
@@ -70,10 +74,10 @@ export const Sidebar = () => {
       >
         <section className={sectionStyle}>
           <button className="flex items-center gap-4 w-full h-16 bg-slate-200 rounded-none rounded-tr-full rounded-br-full border border-blue-400">
-            <img src={akun[0]?.gambar} className={iconNavStyle} />
+            <img src={user?.image} className={iconNavStyle} />
             <section className="flex flex-col items-start">
-              <p>{akun[0]?.username}</p>
-              <p className={secondTextStyle}>{akun[0]?.email}</p>
+              <p>{user?.username}</p>
+              <p className={secondTextStyle}>{user?.email}</p>
             </section>
           </button>
         </section>
@@ -93,21 +97,25 @@ export const Sidebar = () => {
         </section>
         <section className={sectionStyle}>
           <p className="p-2">Mengajar</p>
-          {kelas.map((k) => (
+          {courseTeacher.map((k) => (
             <section key={k?.id} className={navStyle}>
-              <div className={iconNavStyle + ` ${k?.temaKelas} text-white`}>{k?.nama.charAt(0)}</div>
+              <div className={iconNavStyle + ` ${k?.theme} text-white`}>
+                {k?.name.charAt(0)}
+              </div>
               <section>
-                <p>{k?.nama}</p>
-                <p className={secondTextStyle}>{k?.jadwal}</p>
+                <p>{k?.name}</p>
+                <p className={secondTextStyle}>{k?.schedule}</p>
               </section>
             </section>
           ))}
         </section>
         <section className={sectionStyle}>
           <p className="p-2">Terdaftar</p>
-          {kelas.map((k) => (
+          {courseStudent.map((k) => (
             <section key={k?.id} className={navStyle}>
-              <div className={iconNavStyle + ` ${k?.temaKelas} text-white`}>{k?.nama.charAt(0)}</div>
+              <div className={iconNavStyle + ` ${k?.temaKelas} text-white`}>
+                {k?.nama.charAt(0)}
+              </div>
               <section>
                 <p>{k?.nama}</p>
                 <p className={secondTextStyle}>{k?.jadwal}</p>

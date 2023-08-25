@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/test/attachments")
+@RequestMapping("/api/v1/attachments")
 public class AttachmentController {
 
     private final AttachmentService attachmentService;
