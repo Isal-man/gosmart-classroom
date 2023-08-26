@@ -5,6 +5,7 @@ import com.gosmart.classroom.enrollment.Enrollments;
 import com.gosmart.classroom.students.StudentService;
 import com.gosmart.classroom.teachers.TeacherService;
 import com.gosmart.classroom.users.UserRepository;
+import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +20,6 @@ import java.util.UUID;
 public class CourseService {
 
     private final CourseRepository courseRepository;
-    @Lazy
     private final EnrollmentService enrollmentService;
     private final UserRepository userRepository;
     private final TeacherService teacherService;
@@ -72,24 +72,24 @@ public class CourseService {
         // Create course ID
         String id = UUID.randomUUID().toString();
 
-        // Create new course
-        Courses newCourse = new Courses();
-        newCourse.setId(id);
-        // newCourse.setClassCode(id.substring(0, 8));
-        newCourse.setName(courseRequest.getName());
-        newCourse.setSchedule(courseRequest.getSchedule());
-        newCourse.setImage(courseRequest.getImage());
-        newCourse.setTheme(courseRequest.getTheme());
-
-        // Save course
-        courseRepository.save(newCourse);
-
         // Check if user is exists
-        userRepository.findById(courseRequest.getEmail())
+        Users users = userRepository.findById(courseRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + courseRequest.getEmail()));
 
         // Make user as teacher
         teacherService.insert(courseRequest.getEmail());
+
+        // Create new course
+        Courses newCourse = new Courses();
+        newCourse.setId(id);
+        newCourse.setName(courseRequest.getName());
+        newCourse.setSchedule(courseRequest.getSchedule());
+        newCourse.setImage(courseRequest.getImage());
+        newCourse.setTheme(courseRequest.getTheme());
+        newCourse.setUsers(users);
+
+        // Save course
+        courseRepository.save(newCourse);
 
         // Create enrollment of teacher
         enrollmentService.teacher(courseRequest.getEmail(), id);

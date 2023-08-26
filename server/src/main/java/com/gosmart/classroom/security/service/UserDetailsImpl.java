@@ -19,14 +19,18 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
     private String fullName;
+    private String image;
+    private String phoneNumber;
     @JsonIgnore
     private String role;
 
-    public UserDetailsImpl(String email, String password, String fullName, String role) {
+    public UserDetailsImpl(String email, String password, String fullName, String role, String image, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.role = role;
+        this.image = image;
+        this.phoneNumber = phoneNumber;
     }
 
     public static UserDetailsImpl build(Users users) {
@@ -34,7 +38,9 @@ public class UserDetailsImpl implements UserDetails {
                 users.getEmail(),
                 users.getPassword(),
                 users.getFullName(),
-                users.getRoles()
+                users.getRoles(),
+                users.getImage(),
+                users.getPhoneNumber()
         );
     }
 

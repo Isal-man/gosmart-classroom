@@ -208,6 +208,7 @@ public class AuthController {
         // Put token to cookie
         Cookie cookie = new Cookie("token", jwt);
         cookie.setMaxAge((int) (jwtUtils.getJwtExpirationMs() / 1000));
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
@@ -223,7 +224,9 @@ public class AuthController {
     public ResponseEntity<?> getToken(@CookieValue(name = "token") String token) {
 
         if (token.length() > 0) {
-            return ResponseEntity.ok(token);
+            Map<String, Object> jwt = new HashMap<>();
+            jwt.put("token", token);
+            return ResponseEntity.ok(jwt);
         }
 
         return ResponseEntity.badRequest().body("User not logged in");

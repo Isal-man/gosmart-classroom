@@ -12,7 +12,8 @@ import javax.validation.constraints.Min;
 public class GradeRequest {
 
     private String email;
-    private String id;
+    private String aid;
+    private String cid;
 
     @Min(value = 0, message = "Minimum grade is 0")
     @Max(value = 100, message = "Maximum grade is 100")

@@ -12,39 +12,43 @@ import { useContext } from "react";
 // context
 import { useEffect } from "react";
 import { useState } from "react";
-import { SidebarContext } from "../App";
-import { useOutletContext } from "react-router-dom";
+import { AuthContext, SidebarContext } from "../App";
 import { api } from "../services/ApiService";
+import { useNavigate } from "react-router-dom";
 
-export const Sidebar = ({ user, token }) => {
+export const Sidebar = () => {
+  // common variable
+  const user = JSON.parse(localStorage.getItem("user"));
+
   // context
   const { sidebarStyle, setSidebarStyle, block, setBlock } =
     useContext(SidebarContext);
+  const { token } = useContext(AuthContext);
 
-  // state
+  // hooks
   const [courseTeacher, setCourseTeacher] = useState([]);
   const [courseStudent, setCourseStudent] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
-      setIsLoading(true);
-
-      console.log(token);
-
-      const getTeacherCourses = await api.get("api/v1/courses/s/teacher?email=faiskweren7@gmail.com", token)
+      const getTeacherCourses = await api.get(
+        "api/v1/courses/s/teacher?email=" + user.email,
+        token
+      );
       const teacherCourses = await getTeacherCourses.json();
       setCourseTeacher(teacherCourses);
 
-      const getStudentCourses = await api.get("api/v1/courses/s/student?email=faiskweren7@gmail.com", token);
+      const getStudentCourses = await api.get(
+        "api/v1/courses/s/student?email=" + user.email,
+        token
+      );
       const studentCourses = await getStudentCourses.json();
       setCourseStudent(studentCourses);
-
-      setIsLoading(false);
     };
 
     load();
-  }, []);
+  }, [token]);
 
   // style
   const sectionStyle =
@@ -66,39 +70,39 @@ export const Sidebar = ({ user, token }) => {
 
   return (
     <div
-      className={`${block} fixed top-0 left-0 w-screen h-screen`}
+      className={`${block} fixed top-0 left-0 w-screen h-screen z-20`}
       onClick={handleSidebarStyle}
     >
       <aside
-        className={`${sidebarStyle} hidden flex-col gap-2 py-1 bg-slate-100 w-10/12 md:w-1/2 lg:w-1/3 xl:w-1/4 h-full overflow-y-auto`}
+        className={`${sidebarStyle} hidden flex-col gap-2 py-1 bg-white w-10/12 sm:w-1/2 lg:w-1/3 xl:w-1/4 h-full overflow-y-auto`}
       >
         <section className={sectionStyle}>
-          <button className="flex items-center gap-4 w-full h-16 bg-slate-200 rounded-none rounded-tr-full rounded-br-full border border-blue-400">
-            <img src={user?.image} className={iconNavStyle} />
+          <NavLink className={({isActive}) => isActive ? navStyle + " bg-blue-100 border border-blue-500" : navStyle}>
+            <img src={user.image} className={iconNavStyle} />
             <section className="flex flex-col items-start">
-              <p>{user?.username}</p>
+              <p>{user?.fullName}</p>
               <p className={secondTextStyle}>{user?.email}</p>
             </section>
-          </button>
+          </NavLink>
         </section>
         <section className={sectionStyle}>
-          <a className={navStyle}>
+          <NavLink to={"/"} className={({isActive}) => isActive ? navStyle + " bg-blue-50 border border-blue-500" : navStyle}>
             <div className={iconNavStyle}>
               <AiOutlineHome />
             </div>
             <p>Beranda</p>
-          </a>
-          <a className={navStyle}>
+          </NavLink>
+          <NavLink to={"/calendar"} className={({isActive}) => isActive ? navStyle + " bg-blue-50 border border-blue-500" : navStyle}>
             <div className={iconNavStyle}>
               <AiTwotoneCalendar />
             </div>
             <p>Kalender</p>
-          </a>
+          </NavLink>
         </section>
         <section className={sectionStyle}>
           <p className="p-2">Mengajar</p>
           {courseTeacher.map((k) => (
-            <section key={k?.id} className={navStyle}>
+            <NavLink key={k?.id} className={({isActive}) => isActive ? navStyle + " bg-blue-50 border border-blue-500" : navStyle} to={"/course/" + k?.id}>
               <div className={iconNavStyle + ` ${k?.theme} text-white`}>
                 {k?.name.charAt(0)}
               </div>
@@ -106,21 +110,21 @@ export const Sidebar = ({ user, token }) => {
                 <p>{k?.name}</p>
                 <p className={secondTextStyle}>{k?.schedule}</p>
               </section>
-            </section>
+            </NavLink>
           ))}
         </section>
         <section className={sectionStyle}>
           <p className="p-2">Terdaftar</p>
           {courseStudent.map((k) => (
-            <section key={k?.id} className={navStyle}>
-              <div className={iconNavStyle + ` ${k?.temaKelas} text-white`}>
-                {k?.nama.charAt(0)}
+            <NavLink key={k?.id} className={({isActive}) => isActive ? navStyle + " bg-blue-50 border border-blue-500" : navStyle} to={"/course/" + k?.id}>
+              <div className={iconNavStyle + ` ${k?.theme} text-white`}>
+                {k?.name.charAt(0)}
               </div>
               <section>
-                <p>{k?.nama}</p>
-                <p className={secondTextStyle}>{k?.jadwal}</p>
+                <p>{k?.name}</p>
+                <p className={secondTextStyle}>{k?.schedule}</p>
               </section>
-            </section>
+            </NavLink>
           ))}
         </section>
         <section className={sectionStyle}>

@@ -10,7 +10,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 //core
 import "primereact/resources/primereact.min.css";
 import { createBrowserRouter } from "react-router-dom";
-import { Home, LoginPage } from "./pages";
+import { Calendar, ClassPage, Home, LoginPage } from "./pages";
 import { RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -25,6 +25,19 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/calendar",
+        element: <Calendar />
+      },
+      {
+        path: "/course",
+        children: [
+          {
+            path: ":cid",
+            element: <ClassPage />
+          }
+        ]
+      }
     ],
   },
 ]);

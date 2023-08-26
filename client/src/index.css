@@ -7,7 +7,11 @@ body {
 }
 
 button {
-  @apply bg-indigo-500 p-2 rounded-lg w-2/5;
+  @apply bg-indigo-500 p-2 rounded-lg w-2/5 hover:cursor-pointer;
+}
+
+a {
+  @apply hover:cursor-pointer hover:underline
 }
 
 .card {
@@ -39,16 +43,36 @@ button {
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 5);
 }
 
+.bg {
+  background-color: transparent !important;
+}
+
 .red {
-  @apply bg-red-500;
+  @apply bg-red-500 hover:bg-red-200 border-red-500;
 }
 
 .blue {
-  @apply bg-blue-500;
+  @apply bg-blue-500 hover:bg-blue-200 border-blue-500;
 }
 
 .green {
-  @apply bg-green-500;
+  @apply bg-green-500 hover:bg-green-200 border-green-500;
+}
+
+.orange {
+  @apply bg-orange-500 hover:bg-orange-200 border-orange-500;
+}
+
+.cyan {
+  @apply bg-cyan-500 hover:bg-cyan-200 border-cyan-500;
+}
+
+.gray {
+  @apply bg-gray-500 hover:bg-gray-200 border-gray-500;
+}
+
+.purple {
+  @apply bg-purple-500 text-purple-500 hover:bg-purple-200 border-purple-500;
 }
 
 .block {
@@ -88,7 +112,7 @@ button {
 }
 
 .pop-up {
-  animation: popup 0.5s ease;
+  animation: popup .3s ease;
   display: flex;
 }
 
@@ -102,7 +126,7 @@ button {
 }
 
 .pop-down {
-  animation: popdown 0.5s ease;
+  animation: popdown .3s ease;
   display: flex;
 }
 

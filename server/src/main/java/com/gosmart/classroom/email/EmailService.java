@@ -17,7 +17,7 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String content) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
-        var messageHelper = new MimeMessageHelper(message);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
         messageHelper.setFrom("noreply@gosmart.id", "Gosmart Classroom Admin");
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);

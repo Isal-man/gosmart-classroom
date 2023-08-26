@@ -32,7 +32,7 @@ public class CourseController {
     }
 
     /*
-     * @detail Get all data by teacher
+     * @detail Get all data by status
      * @method GET /api/v1/courses/s/{status}?email=?
      * @access private
      */
@@ -46,6 +46,16 @@ public class CourseController {
         }
 
         return courseService.findAll();
+    }
+
+    /*
+     * @detail Get course by ID
+     * @method GET /api/v1/courses/{id}
+     * @access private
+     */
+    @GetMapping("/{id}")
+    public Courses findById(@PathVariable("id") String id) {
+        return courseService.findById(id);
     }
 
     /*

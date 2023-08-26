@@ -19,10 +19,10 @@ public class GradeController {
     private final GradeService gradeService;
 
     /*
-    * @detail Get all grade
-    * @method GET /api/v1/grades
-    * @access private
-    */
+     * @detail Get all grade
+     * @method GET /api/v1/grades
+     * @access private
+     */
     @GetMapping
     public List<Grades> findAll() {
         return gradeService.findAll();
@@ -81,7 +81,8 @@ public class GradeController {
             return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
         }
 
-        return ResponseEntity.ok(gradeService.grades(gradeRequest.getEmail(), gradeRequest.getId(),
+        return ResponseEntity.ok(gradeService.grades(gradeRequest.getEmail(), gradeRequest.getAid(),
+                gradeRequest.getCid(),
                 gradeRequest.getGrade()));
     }
 

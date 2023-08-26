@@ -26,7 +26,6 @@ public class GradeService {
     private final UserService userService;
     private final AssignmentService assignmentService;
     private final CourseService courseService;
-    private final EnrollmentService enrollmentService;
 
     // Get all grade
     public List<Grades> findAll() {
@@ -53,6 +52,13 @@ public class GradeService {
         return ResponseEntity.ok(gradeRepository.findAllByAssignments_Id(id));
     }
 
+    // Count which student has been graded
+    public ResponseEntity<?> countAllByAssignmentId(String aid) {
+        Assignments assignments = assignmentService.findById(aid);
+
+        return ResponseEntity.ok(gradeRepository.countAllByAssignments_Id(assignments.getId()));
+    }
+
     // Get grade by ID
     public Grades findById(Integer id) {
         return gradeRepository.findById(id)
@@ -68,13 +74,14 @@ public class GradeService {
     }
 
     // Rate assignments task
-    public Grades grades(String email, String id, Integer grade) {
+    public Grades grades(String email, String aid, String cid, Integer grade) {
 
         Users users = userService.findByEmail(email);
-        Assignments assignments = assignmentService.findById(id);
+        Assignments assignments = assignmentService.findById(aid);
+        Courses courses = courseService.findById(cid);
 
-        if (gradeRepository.existsByUsersEmailAndAssignments_Id(email, id)) {
-            Grades updateGrades = gradeRepository.findByUsersEmailAndAssignments_Id(email, id)
+        if (gradeRepository.existsByUsersEmailAndAssignments_Id(email, aid)) {
+            Grades updateGrades = gradeRepository.findByUsersEmailAndAssignments_Id(email, aid)
                     .orElseThrow(() -> new MissingResourceException("Grade not found with User email: " + email,
                             Grades.class.toString(), "Grade User Email"));
 
@@ -85,6 +92,7 @@ public class GradeService {
         Grades addGrades = new Grades();
         addGrades.setUsers(users);
         addGrades.setAssignments(assignments);
+        addGrades.setCourses(courses);
         addGrades.setGrade(grade);
 
         return gradeRepository.save(addGrades);

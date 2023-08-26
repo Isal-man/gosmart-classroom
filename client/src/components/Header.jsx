@@ -7,6 +7,7 @@ import { FiMenu } from "react-icons/fi";
 // context
 import { useState } from "react";
 import { SidebarContext } from "../App";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   // context
@@ -35,7 +36,7 @@ export const Header = () => {
       setTimeout(() => {
         setShowSectionClass(false);
         setSectionClassStyle("");
-      }, 500);
+      }, 300);
     } else {
       setShowSectionClass(true);
       setTimeout(() => {
@@ -51,12 +52,12 @@ export const Header = () => {
           <button className={buttonStyle} onClick={handleSidebarStyle}>
             <FiMenu />
           </button>
-          <section>
+          <section className={"flex gap-2 items-center"}>
             <img
               src="/logo-with-no-color.png"
-              className="w-3/5 md:w-1/3 h-full md:h-4/5 lg:w-1/5"
+              className="object-contain w-1/6 h-1/6 sm:w-1/12 lg:w-[5%]"
             />
-            <p>Gosmart Classroom</p>
+            <Link to={"/"} className="text-md sm:text-2xl font-bold hover:text-blue-500">Gosmart Classroom</Link>
           </section>
         </section>
         <section>
