@@ -21,9 +21,22 @@ public class EnrollmentController {
      */
     @GetMapping("/cid/{courseId}")
     public ResponseEntity<?> findAllParticipant(@PathVariable("courseId") String courseId) {
-
         return ResponseEntity.ok(enrollmentService.findAllParticipant(courseId));
+    }
 
+    /*
+     * @detail Check if student has been enrolled on course as student
+     * @method GET /api/v1/enrollments/sid/{userEmail}/cid/{courseId}
+     * @access private
+     */
+    @GetMapping("/sid/{userEmail}/cid/{courseId}")
+    public ResponseEntity<?> checkIfUserHasBeenEnroll(@PathVariable("userEmail") String userEmail, @PathVariable(
+            "courseId") String courseId) {
+
+        if (!enrollmentService.findUserHasEnroll(courseId, userEmail))
+            return ResponseEntity.ok("not enroll");
+
+        return ResponseEntity.ok("enroll");
     }
 
 }

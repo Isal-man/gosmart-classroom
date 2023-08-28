@@ -31,6 +31,7 @@ public class FileService {
 
         BlobId blobId = BlobId.of(firebaseConfigProperties.getStorageBucket(), fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType).build();
+        storage.create(blobInfo, file.getBytes());
 
         FileResponse response = new FileResponse();
         response.setFileName(fileName);

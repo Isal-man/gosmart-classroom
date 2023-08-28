@@ -18,6 +18,9 @@ export const App = () => {
   const [token, setToken] = useState();
   const url = useLocation();
 
+  // variable
+  const path = url.pathname.includes("login") || url.pathname.includes("register") || url.pathname.includes("forgot-password") || url.pathname.includes("join-course")
+
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       <SidebarContext.Provider
@@ -28,7 +31,7 @@ export const App = () => {
           setBlock,
         }}
       >
-        {!url.pathname.includes("login" || "register" || "forgot-password") ? (
+        {!path ? (
           <>
             <Header />
             <Sidebar />

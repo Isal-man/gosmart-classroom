@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll().anyRequest().authenticated();
+                .antMatchers("/api/v1/upload").permitAll().anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,9 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -71,10 +70,10 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email already registered");
         }
 
-        // Check if validation errors
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        }
+        // // Check if validation errors
+        // if (bindingResult.hasErrors()) {
+        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
+        // }
 
 
         // Generate token for verification
@@ -113,17 +112,14 @@ public class AuthController {
                 "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n" +
                 "    }\n" +
                 "\n" +
-                "    .image {\n" +
-                "      width: 150px;\n" +
-                "      height: 150px;\n" +
-                "      margin-bottom: 15px;\n" +
-                "      border-radius: 50%;\n" +
-                "      object-fit: cover;\n" +
-                "      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);\n" +
+                "    .logo {\n" +
+                "      width: 100px;\n" +
+                "      height: auto;\n" +
+                "      margin: 20px auto;\n" +
                 "    }\n" +
                 "\n" +
                 "    .message {\n" +
-                "      font-size: 16px;\n" +
+                "      font-size: 18px;\n" +
                 "      margin-bottom: 20px;\n" +
                 "    }\n" +
                 "\n" +
@@ -137,6 +133,7 @@ public class AuthController {
                 "      font-size: 16px;\n" +
                 "      cursor: pointer;\n" +
                 "      transition: background-color 0.3s ease;\n" +
+                "      text-decoration: none;\n" +
                 "    }\n" +
                 "\n" +
                 "    .verify-button:hover {\n" +
@@ -146,10 +143,12 @@ public class AuthController {
                 "</head>\n" +
                 "<body>\n" +
                 "  <div class=\"email-container\">\n" +
-                "    <h2>Email Verification</h2>\n" +
-                "    <img src=\"https://firebasestorage.googleapis.com/v0/b/practice-project-8bb4c.appspot.com/o/logo-with-no-color.png?alt=media&token=f73bbf04-9e25-40d9-b5db-b0fdce687674\" alt=\"Student\" class=\"image\">\n" +
-                "    <p class=\"message\">Thank you for registering with our application. Click the button below to verify your email.</p>\n" +
-                "    <a href=" + verificationLink + " class=\"verify-button\">Verify</a>\n" +
+                "    <h1>Email Verification</h1>\n" +
+                "    <img src=\"https://storage.googleapis.com/gosmart-classroom.appspot.com/logo-with-no-color.png\" alt=\"Logo\" " +
+                "class=\"logo\">\n" +
+                "    <p class=\"message\">Registration successful. Click the button below for verification.</p>\n" +
+                "    <a href="+verificationLink+" class=\"verify-button" +
+                "\">Verify</a>\n" +
                 "  </div>\n" +
                 "</body>\n" +
                 "</html>";
@@ -177,7 +176,7 @@ public class AuthController {
         userRepository.save(users);
         tokenRepository.delete(tokenUser);
 
-        return new RedirectView("https://isal-blog.vercel.app/");
+        return new RedirectView("http://localhost:5173/");
     }
 
     /*
@@ -189,10 +188,10 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest,
                                                  BindingResult bindingResult, HttpServletResponse response) throws JwtException {
 
-        // Check if validation errors
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        }
+        // // Check if validation errors
+        // if (bindingResult.hasErrors()) {
+        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
+        // }
 
         // Authenticate user with loginRequest
         Authentication authentication = authenticationManager.authenticate(
@@ -220,6 +219,23 @@ public class AuthController {
 
     }
 
+    /*
+    * @detail Log out user
+    * @method Get /auth/logout
+    * @access public
+    */
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        // Remove token to cookie
+        Cookie cookie = new Cookie("token", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return "User has logged out";
+    }
+
     @GetMapping("/get-token")
     public ResponseEntity<?> getToken(@CookieValue(name = "token") String token) {
 
@@ -234,12 +250,17 @@ public class AuthController {
 
 
     // Get detail from validation errors
-    private Map<String, String> createValidationErrorResponseBody(BindingResult bindingResult) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : bindingResult.getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<String>> handleValidationException(MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        List<FieldError> fieldErrors = result.getFieldErrors();
+
+        List<String> errors = new ArrayList<>();
+        for (FieldError fieldError : fieldErrors) {
+            errors.add(fieldError.getDefaultMessage());
         }
-        return errors;
+
+        return ResponseEntity.badRequest().body(errors);
     }
 
 }

@@ -4,6 +4,13 @@ server:
     include-stacktrace: never
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 903743303368-086nrbqmpogmd6tt6ofo73buk7svqtjs.apps.googleusercontent.com
+            client-secret: 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
   datasource:
     url: jdbc:postgresql://localhost:5432/gosmart
     username: postgres

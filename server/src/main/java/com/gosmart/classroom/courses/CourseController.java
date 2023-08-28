@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,36 +68,32 @@ public class CourseController {
     @PostMapping
     public ResponseEntity<?> insert(@Valid @RequestBody CourseRequest request, BindingResult bindingResult) {
 
-        // Check if validation errors
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        }
+        // // Check if validation errors
+        // if (bindingResult.hasErrors()) {
+        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
+        // }
 
         return ResponseEntity.ok(courseService.insert(request));
     }
 
     /*
      * @detail Add student to course
-     * @method GET /api/v1/courses/cid/{courseId}cc=?&email=?
+     * @method GET /api/v1/courses/join-course?cc=?&email=?
      * @access private
      */
-    @GetMapping("/cid/{courseId}")
-    public RedirectView addStudentToCourse(@PathVariable("courseId") String courseId, @RequestParam(value = "email",
+    @GetMapping("/join-course")
+    public String addStudentToCourse(@RequestParam(value = "email",
             required = false) String email, @RequestParam("cc") String code) {
 
-        courseService.findById(courseId);
+        Courses courses = courseService.findByCc(code);
 
-        if (findUserHasEnroll(courseId, email)) {
-            return new RedirectView("https://isal-blog.vercel.app/");
+        if (findUserHasEnroll(courses.getId(), email)) {
+            return "enroll";
         }
 
-        if (email == null) {
-           return new RedirectView("https://isal-blog.vercel.app/");
-        }
+        courseService.student(email, courses.getId());
 
-        courseService.student(email, code);
-
-        return new RedirectView("https://isal-blog.vercel.app/");
+        return "http://localhost:5173/course/" + courses.getId();
     }
 
     public boolean findUserHasEnroll(String course, String email) {
@@ -103,12 +101,17 @@ public class CourseController {
     }
 
     // Get detail from validation errors
-    private Map<String, String> createValidationErrorResponseBody(BindingResult bindingResult) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : bindingResult.getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<String>> handleValidationException(MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        List<FieldError> fieldErrors = result.getFieldErrors();
+
+        List<String> errors = new ArrayList<>();
+        for (FieldError fieldError : fieldErrors) {
+            errors.add(fieldError.getDefaultMessage());
         }
-        return errors;
+
+        return ResponseEntity.badRequest().body(errors);
     }
 
 }

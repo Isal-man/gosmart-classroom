@@ -9,43 +9,35 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 
 //core
 import "primereact/resources/primereact.min.css";
-import { createBrowserRouter } from "react-router-dom";
-import { Calendar, ClassPage, Home, LoginPage } from "./pages";
-import { RouterProvider } from "react-router-dom";
-
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/calendar",
-        element: <Calendar />
-      },
-      {
-        path: "/course",
-        children: [
-          {
-            path: ":cid",
-            element: <ClassPage />
-          }
-        ]
-      }
-    ],
-  },
-]);
+import {
+  Calendar,
+  ClassJoinPage,
+  ClassPage,
+  Home,
+  ListTaskPage,
+  LoginPage,
+  RegisterPage,
+  UserPage,
+} from "./pages";
+import { BrowserRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Home />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/course/:cid" element={<ClassPage />} />
+          <Route path="/course/:cid/join-course" element={<ClassJoinPage />} />
+          <Route path="/task/:cid" element={<ListTaskPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );

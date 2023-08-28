@@ -14,6 +14,8 @@ public interface GradeRepository extends JpaRepository<Grades, Integer> {
 
     List<Grades> findAllByUsersEmail(String email);
 
+    Optional<Grades> findByUsersEmail(String email);
+
     long countAllByAssignments_Id(String aid);
 
     boolean existsByUsersEmailAndAssignments_Id(String email, String id);

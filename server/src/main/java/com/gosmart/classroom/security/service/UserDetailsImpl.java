@@ -22,15 +22,19 @@ public class UserDetailsImpl implements UserDetails {
     private String image;
     private String phoneNumber;
     @JsonIgnore
+    private Boolean isVerified;
+    @JsonIgnore
     private String role;
 
-    public UserDetailsImpl(String email, String password, String fullName, String role, String image, String phoneNumber) {
+    public UserDetailsImpl(String email, String password, String fullName, String role, String image,
+                           String phoneNumber, Boolean isVerified) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.role = role;
         this.image = image;
         this.phoneNumber = phoneNumber;
+        this.isVerified = isVerified;
     }
 
     public static UserDetailsImpl build(Users users) {
@@ -40,7 +44,8 @@ public class UserDetailsImpl implements UserDetails {
                 users.getFullName(),
                 users.getRoles(),
                 users.getImage(),
-                users.getPhoneNumber()
+                users.getPhoneNumber(),
+                users.getIsVerified()
         );
     }
 
@@ -69,7 +74,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isVerified;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isVerified;
     }
 
 }

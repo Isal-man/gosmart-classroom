@@ -33,7 +33,7 @@ public class RegisterRequest {
     @Pattern(regexp = "(^\\+62\\d{9,12}$)", message = "Invalid phone number format, telephone number must be preceded by +62")
     private String phoneNumber;
 
-    private String image;
+    private String image = "https://storage.googleapis.com/gosmart-classroom.appspot.com/8380015.png";
     private String roles;
 
 }

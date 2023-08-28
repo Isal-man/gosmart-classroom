@@ -1,30 +1,44 @@
 import {
-  Link,
+  TextField,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
   Snackbar,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   // hooks
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState();
+  const [openPopup, setOpenPopup] = useState(false);
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
-  const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
-  // Handle function
-  const handleClick = async () => {
+  // handle
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-
-      const request = await fetch("http://localhost:7060/auth/login", {
+      const regist = await fetch("http://localhost:7060/auth/register", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -33,37 +47,29 @@ export const LoginPage = () => {
         body: JSON.stringify(user),
       });
 
-      if (request.ok) {
-        const response = await request.json();
-        localStorage.setItem("user", JSON.stringify(response));
-      }
-
-      const account = JSON.parse(localStorage.getItem("user"));
-
-      if (!account) {
+      if (regist.status !== 200) {
+        // Handle registration error
         setLoading(false);
         setErrorSnackbarOpen(true);
       } else {
+        // Registration successful
         setLoading(false);
-        history.back();
+        setOpenPopup(true);
       }
     } catch (error) {
-      alert(error);
-      setLoading(false);
+      setErrorSnackbarOpen(true);
     }
   };
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handlePopupClose = () => {
+    setOpenPopup(false);
+    navigate("/login");
   };
 
-  // style
   const buttonStyle =
     "flex justify-center items-center gap-4 w-full rounded-3xl p-2 font-bold bg-transparent border border-black";
+
   const imageStyle = "object-contain w-8 h-8";
-  // const backgroundStyle
 
   return (
     <div
@@ -76,19 +82,33 @@ export const LoginPage = () => {
     >
       <div
         className={
-          "card box-shadow flex flex-col items-center gap-8 p-6 w-11/12 sm:w-2/3 lg:w-1/2 xl:w-1/3 bg-white"
+          "card box-shadow flex flex-col items-center gap-8 p-6 w-11/12 sm:w-2/3 lg:w-1/2 xl:w-1/3 h-[90%] overflow-y-auto bg-white"
         }
       >
         <header>
-          <p className="text-2xl font-bold">LOGIN</p>
+          <p className="text-2xl font-bold">REGISTER</p>
         </header>
         <form
-          className={"flex flex-col gap-4 p-4 w-full border-b-2 border-slate-300"}
+          className={"flex flex-col gap-4 w-full"}
           onSubmit={(e) => {
             e.preventDefault();
-            handleClick();
+            handleSubmit();
           }}
         >
+          <TextField
+            id="fullName"
+            label="Full Name"
+            variant="outlined"
+            onChange={(e) => setUser({ ...user, fullName: e.target.value })}
+            fullWidth
+          />
+          <TextField
+            id="phoneNumber"
+            label="Phone Number"
+            variant="outlined"
+            onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+            fullWidth
+          />
           <TextField
             id="email"
             label="Email"
@@ -122,21 +142,18 @@ export const LoginPage = () => {
           <LoadingButton
             type="submit"
             loading={loading}
-            loadingIndicator="Login..."
+            loadingIndicator="Registering..."
             variant="contained"
             className={"w-full"}
           >
-            <span>Login</span>
+            <span>Register</span>
           </LoadingButton>
-          <Link href="/forgot-password" underline="hover" className={"text-center"}>
-            {"Forgot password?"}
+          <Link to="/login" underline="hover" className={"text-center"}>
+            {"Already have an account? Login here."}
           </Link>
         </form>
         <footer className="flex flex-col gap-4 w-full items-center">
-          <Link href="/register" underline="hover" className={"text-center"}>
-            {"Don't have an account yet?"}
-          </Link>
-          <p>or login with:</p>
+          <p>or register with:</p>
           <button className={buttonStyle}>
             <img src="/logo-google.png" className={imageStyle} />
             Continue with google
@@ -147,11 +164,27 @@ export const LoginPage = () => {
           </button>
         </footer>
       </div>
+      <Dialog open={openPopup} onClose={handlePopupClose}>
+        <DialogTitle>Registration Success</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Registration success! Please check your email ({user?.email}) for
+            verification.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <button onClick={handlePopupClose} className={buttonStyle}>
+            OK
+          </button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         open={errorSnackbarOpen}
         autoHideDuration={3000}
         onClose={() => setErrorSnackbarOpen(false)}
-        message={"User invalid, maybe has not registered or verified"}
+        message={
+          "Registration failed, please check the required data and fill it correctly"
+        }
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       />
     </div>

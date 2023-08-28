@@ -3,10 +3,11 @@ package com.gosmart.classroom.assignments;
 import com.gosmart.classroom.courses.CourseService;
 import com.gosmart.classroom.courses.Courses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import java.util.UUID;
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
-    @Lazy
     private final CourseService courseService;
 
     // Get all assignment
@@ -45,6 +45,13 @@ public class AssignmentService {
         assignment.setId(UUID.randomUUID().toString());
         assignment.setName(assignmentRequest.getName());
         assignment.setDescription(assignmentRequest.getDescription());
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            assignment.setDueDate(format.parse(assignmentRequest.getDueDate()));
+        } catch (ParseException e) {
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
 
         if (type.equalsIgnoreCase("material")) {
             assignment.setIsMaterial(true);

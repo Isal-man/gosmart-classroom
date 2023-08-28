@@ -66,6 +66,12 @@ public class CourseService {
                 .orElseThrow(() -> new IllegalStateException("Course not found with ID: " + id));
     }
 
+    // Get data by Course Code
+    public Courses findByCc(String cc) {
+        return courseRepository.findByIdContains(cc)
+                .orElseThrow(() -> new IllegalStateException("Course not found with ID: " + cc));
+    }
+
     // Add course for teacher
     public Courses insert(CourseRequest courseRequest) {
 

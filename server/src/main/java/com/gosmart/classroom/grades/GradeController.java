@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +78,10 @@ public class GradeController {
     @PostMapping
     public ResponseEntity<?> grade(@Valid @RequestBody GradeRequest gradeRequest, BindingResult bindingResult) {
 
-        // Check if validation errors
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        }
+        // // Check if validation errors
+        // if (bindingResult.hasErrors()) {
+        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
+        // }
 
         return ResponseEntity.ok(gradeService.grades(gradeRequest.getEmail(), gradeRequest.getAid(),
                 gradeRequest.getCid(),
@@ -87,12 +89,17 @@ public class GradeController {
     }
 
     // Get detail from validation errors
-    private Map<String, String> createValidationErrorResponseBody(BindingResult bindingResult) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : bindingResult.getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<String>> handleValidationException(MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        List<FieldError> fieldErrors = result.getFieldErrors();
+
+        List<String> errors = new ArrayList<>();
+        for (FieldError fieldError : fieldErrors) {
+            errors.add(fieldError.getDefaultMessage());
         }
-        return errors;
+
+        return ResponseEntity.badRequest().body(errors);
     }
 
 }

@@ -34,7 +34,8 @@ public class StudentService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         if (studentRepository.existsByUsers(users)) {
-            return studentRepository.findByUsers(users);
+            return studentRepository.findByUsers(users)
+                    .orElseThrow(() -> new RuntimeException("Student not found"));
         }
 
         Students newStudent = new Students();

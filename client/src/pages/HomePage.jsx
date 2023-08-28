@@ -55,22 +55,38 @@ export const Home = () => {
         </Box>
       ) : (
         <main className="flex flex-col md:flex-row md:flex-wrap gap-20 justify-center items-center p-2 h-full w-full">
-          <div className={groupStyle}>
-            <p className={textStyle}>Mengajar</p>
-            <div className={classStyle}>
-              {courseTeacher.map((classes) => (
-                <ClassCard key={classes?.id} {...classes} />
-              ))}
+          {courseTeacher.length > 0 && (
+            <div className={groupStyle}>
+              <p className={textStyle}>Mengajar</p>
+              <div className={classStyle}>
+                {courseTeacher.map((classes) => (
+                  <ClassCard key={classes?.id} {...classes} />
+                ))}
+              </div>
             </div>
-          </div>
-          <div className={groupStyle}>
-            <p className={textStyle}>Terdaftar</p>
-            <div className={classStyle}>
-              {courseStudent.map((classes) => (
-                <ClassCard key={classes?.id} {...classes} />
-              ))}
+          )}
+          {courseStudent.length > 0 && (
+            <div className={groupStyle}>
+              <p className={textStyle}>Terdaftar</p>
+              <div className={classStyle}>
+                {courseStudent.map((classes) => (
+                  <ClassCard key={classes?.id} {...classes} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          {
+            (!courseStudent.length > 0 && !courseTeacher.length > 0) && (
+              <div className="text-center">
+              <img
+                src="https://storage.googleapis.com/gosmart-classroom.appspot.com/logo-with-no-color.png"
+                alt="Image Not Found"
+                className="w-1/6 h-1/6 mx-auto"
+              />
+              <p className="text-xl mt-4">Kursus Tidak Ditemukan, temukan dengan mendapatkan kode kursus atau tautan kursus atau buat kursus Anda sendiri</p>
+            </div>
+            )
+          }
         </main>
       )}
     </ProtectedRoute>

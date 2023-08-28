@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,6 +18,8 @@ public class Assignments {
     private String id;
     private String name;
     private String description;
+    private Date postDate = new Date();
+    private Date dueDate;
     private Boolean isMaterial;
     private Boolean isTask;
     private Boolean isAnnouncement;

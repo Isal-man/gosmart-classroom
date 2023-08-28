@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { AiOutlineNumber } from "react-icons/ai";
 
 // icons
-import { BiFolder, BiTask } from "react-icons/bi";
+import { BiTask } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 export const ClassCard = ({ id, name, schedule, image, users }) => {
@@ -23,10 +23,11 @@ export const ClassCard = ({ id, name, schedule, image, users }) => {
   const buttonStyle = "text-2xl rounded-full bg-transparent hover:bg-slate-200 w-10 h-1/6 tooltip"
 
   return (
-    <div className="card box-shadow flex flex-col w-5/6 sm:w-[30%] lg:w-64 xl:w-80 h-full sm:h-64 xl:h-full" onClick={() => navigate("/course/" + id)}>
+    <div className="card box-shadow flex flex-col w-5/6 sm:w-[30%] lg:w-64 xl:w-80 h-full sm:h-64 xl:h-full">
       <section
-        className="flex flex-col gap-4 p-4 text-white text-shadow font-bold h-32 border-b border-b-slate-500"
+        className="flex flex-col gap-4 p-4 text-white text-shadow font-bold h-32 border-b border-b-slate-500 hover:cursor-pointer"
         style={BackgroundStyle}
+        onClick={() => navigate("/course/" + id)}
       >
         <section>
           <p className="text-xl">{name}</p>
@@ -42,17 +43,17 @@ export const ClassCard = ({ id, name, schedule, image, users }) => {
           className="float-right w-[74px] h-[74px] -mt-12 rounded-full object-cover"
         />
       </section>
-      <section className="flex justify-end gap-2 p-2 border-t border-t-slate-400 w-full h-1/4">
-        <button className={buttonStyle}>
+      <section className="flex justify-end gap-2 p-2 border-t border-t-slate-400 w-full h-1/4 z-20">
+        <button className={buttonStyle} onClick={() => navigate("/task/" + id)}>
           <BiTask />
           <span className="tooltiptext">
             list tugas
           </span>
         </button>
         <button className={buttonStyle}>
-          <BiFolder />
+          <AiOutlineNumber />
           <span className="tooltiptext">
-            folder kelas
+            lihat nilai
           </span>
         </button>
       </section>

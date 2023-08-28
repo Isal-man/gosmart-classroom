@@ -65,8 +65,12 @@ public class EnrollmentService {
         Courses courses = getCourse(id);
 
         return enrollmentRepository.findByUsersEmailAndCourses_Id(users.getEmail(), courses.getId())
-                .orElseThrow(() -> new MissingResourceException("Enrollment not found", Enrollments.class.toString(),
-                        "Enrollment user email and course id"));
+                .orElseThrow(() -> new RuntimeException("not enroll"));
+    }
+
+    // Check if user has been enrolled on course as student
+    public boolean findUserHasEnroll(String course, String email) {
+        return enrollmentRepository.existsByCoursesIdAndUsersEmail(course, email);
     }
 
     // Add enrollment teacher
