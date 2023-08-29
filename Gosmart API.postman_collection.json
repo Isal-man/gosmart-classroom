@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "684d53ce-e8a6-49e0-8102-3e258dfdc373",
+		"name": "Gosmart API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25073426"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"faiskweren7@gmail.com\",\r\n    \"password\": \"isalMan@123\",\r\n    \"fullName\": \"Ahmad Faisal\",\r\n    \"phoneNumber\": \"+6281287962344\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"faiskweren7@gmail.com\",\r\n    \"password\": \"isalMan@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OAuth User Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"faiskweren7@gmail.com\",\r\n    \"password\": \"isalMan@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/auth/oauth?email=faiskweren7@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"auth",
+								"oauth"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "faiskweren7@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get token user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/auth/get-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"auth",
+								"get-token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWlza3dlcmVuN0BnbWFpbC5jb20iLCJpYXQiOjE2OTMyNzQ3NTYsImV4cCI6MTY5NDEzODc1Nn0.zLJMHlQLSrFhO7kKHln8Di37iptGxkwB6P6VGHFMOTIaIMuDFrYv8qPK97WfsCDkGbvNw51oMjYIOqKdPOwP3g",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get all data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get student by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/students/fd089dd3-e05a-43e1-a3f0-2d07c05ce73a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"fd089dd3-e05a-43e1-a3f0-2d07c05ce73a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"j3633406@gmail.com\",\r\n    \"fullName\": \"Johnson\",\r\n    \"phoneNumber\": \"0897872898907\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg5NTM0NiwiZXhwIjoxNjkzNzU5MzQ2fQ.SWLOvMKVkaRI_QvKNP8wwy3RT78ilFDqCmYUKmVgFszjhOmaNXeKq-obKpc-AZCSqtvY2RxhdYDl-pcUSCx8FQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Teachers",
+			"item": [
+				{
+					"name": "Get all data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get data by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/teachers/10a012cf-9b41-48df-b1bc-8051a09c0b43",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"teachers",
+								"10a012cf-9b41-48df-b1bc-8051a09c0b43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add teacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Ahmad Faisal Hidayat\",\r\n    \"email\": \"faiskweren7@gmail.com\",\r\n    \"phoneNumber\": \"08182889759345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlcnRsYXd5bzEyM0BnbWFpbC5jb20iLCJpYXQiOjE2OTI2ODYxMTgsImV4cCI6MTY5MzU1MDExOH0.XeYc29kiUt7RJD3NQANNXdvBgwOgsNjTTKlf_6Qn_IKvsjJoKk4XYVAO4_tRywCD29MPXBIn090HA_IrJ-RqoQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Add Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"faiskweren7@gmail.com\",\r\n    \"name\": \"Spring Boot\",\r\n    \"schedule\": \"Sunday, 10:00 AM\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all data as teacher",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/courses/s/teacher?email=johnsonlawry34@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"s",
+								"teacher"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "johnsonlawry34@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all data as student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/courses/s/student?email=johnsonlawry34@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"s",
+								"student"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "johnsonlawry34@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add student to course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/courses/cid/43ced335-947a-4575-9a56-7959d6c31e04?cc=43ced335&email=johnsonlawry34@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"cid",
+								"43ced335-947a-4575-9a56-7959d6c31e04"
+							],
+							"query": [
+								{
+									"key": "cc",
+									"value": "43ced335"
+								},
+								{
+									"key": "email",
+									"value": "johnsonlawry34@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5MjcyOTAyNSwiZXhwIjoxNjkzNTkzMDI1fQ.cN1ClCFbcZo8DUM2xIIB8Dye1sbBcFXeNLQrMhJHtKXeNdU4Yik4H3vZ8lRD6L1n0dmmTezdpl07qx45E8t4RA",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Enrollments",
+			"item": [
+				{
+					"name": "Get all participant in a given class",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/test/enrollments/cid/1f4487da-5994-46d2-82f2-94abbd4fd5a6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"enrollments",
+								"cid",
+								"1f4487da-5994-46d2-82f2-94abbd4fd5a6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "Get all assignments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/test/assignments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"assignments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all assignments by given course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/assignments/cid/1f4487da-5994-46d2-82f2-94abbd4fd5a6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"assignments",
+								"cid",
+								"1f4487da-5994-46d2-82f2-94abbd4fd5a6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get assignment by ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"modification of the project that I made in today's course\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/test/assignments/1f4487da-5994-46d2-82f2-94abbd4fd5a6?type=task",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"assignments",
+								"1f4487da-5994-46d2-82f2-94abbd4fd5a6"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "task"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4ODA2MywiZXhwIjoxNjkzNjUyMDYzfQ.oLqP-ODOYGzuQfeX8KOOIF5f-tXCagWeTkLGj7Z8Jy4YG2pRehYAqmtiLkSa5kSuN2iDYs6k54-lNbwNGC28dg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Grades",
+			"item": [
+				{
+					"name": "Get all grade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/grades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all grade by user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/test/grades/u/johnsonlawry34@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"grades",
+								"u",
+								"johnsonlawry34@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all grade by assignment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/grades/a/16a55092-cc86-42cc-8b47-10f9d6f3e292",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"grades",
+								"a",
+								"16a55092-cc86-42cc-8b47-10f9d6f3e292"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get grade by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/test/grades/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"grades",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get grade by user and assignment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/test/grades/una?user=asdfad&assignment=asdfasdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"test",
+								"grades",
+								"una"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "asdfad"
+								},
+								{
+									"key": "assignment",
+									"value": "asdfasdf"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Give Grade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"robertlawyo123@gmail.com\",\r\n    \"id\": \"16a55092-cc86-42cc-8b47-10f9d6f3e292\",\r\n    \"grade\": 86\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/grades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"grades"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4ODA2MywiZXhwIjoxNjkzNjUyMDYzfQ.oLqP-ODOYGzuQfeX8KOOIF5f-tXCagWeTkLGj7Z8Jy4YG2pRehYAqmtiLkSa5kSuN2iDYs6k54-lNbwNGC28dg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Upload File",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/user/OneDrive/Pictures/Wallpaper/Karina 2.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4ODA2MywiZXhwIjoxNjkzNjUyMDYzfQ.oLqP-ODOYGzuQfeX8KOOIF5f-tXCagWeTkLGj7Z8Jy4YG2pRehYAqmtiLkSa5kSuN2iDYs6k54-lNbwNGC28dg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Attachments",
+			"item": [
+				{
+					"name": "Get all attachment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/attachments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"attachments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7060/api/v1/attachments/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"attachments",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload attachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/user/OneDrive/Documents/BAHAN MATKUL/PDF/BUKU-PENDIDIKAN-KEWARGANEGARAAN-RISTEKDIKTI.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7060/api/v1/attachments?user=faiskweren7@gmail.com&assignment=ae1de18b-d5a1-44fe-b744-6b34e446c340&status=teacher",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7060",
+							"path": [
+								"api",
+								"v1",
+								"attachments"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "faiskweren7@gmail.com"
+								},
+								{
+									"key": "assignment",
+									"value": "ae1de18b-d5a1-44fe-b744-6b34e446c340"
+								},
+								{
+									"key": "status",
+									"value": "teacher"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb3NtYXJ0Y2xhc3Nyb29tQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4ODA2MywiZXhwIjoxNjkzNjUyMDYzfQ.oLqP-ODOYGzuQfeX8KOOIF5f-tXCagWeTkLGj7Z8Jy4YG2pRehYAqmtiLkSa5kSuN2iDYs6k54-lNbwNGC28dg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

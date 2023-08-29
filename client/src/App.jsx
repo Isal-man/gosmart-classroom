@@ -53,7 +53,17 @@ export const translate = {
     ac: "Arsipkan kelas",
     crc: "Buat kursus",
     ic: "Masukkan kode yang Anda dapat di sini.",
-    join: "Gabung"
+    join: "Gabung",
+    fjc: "Untuk join menggunakan kode kursus",
+    uav: "Gunakan akun yang sudah terverifikasi",
+    uck: "Gunakan kode kursus yang terdiri dari 9 karakter kombinasi huruf dan angka, tanpa spasi ataupun simbol",
+    pnu: "Gambar belum diupload",
+    cd: "Data kursus",
+    ot: "Anda otomatis menjadi guru",
+    hm: "Beranda",
+    clr: "Kalender",
+    tch: "Teach",
+    rg: "Terdaftar",
   }
 }
 
