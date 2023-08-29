@@ -200,7 +200,7 @@ export const UserPage = () => {
           <LoadingButton
             type="submit"
             loading={isLoading}
-            loadingIndicator={onUpload ? "Mengupload..." : "Menyimpan"}
+            loadingIndicator={onUpload ? "Mengupload..." : "Menyimpan..."}
             variant="contained"
             className={"bg-blue-500 text-white"}
             onClick={() => handleEdit(isEditing)}

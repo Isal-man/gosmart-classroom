@@ -166,11 +166,9 @@ export const ClassPage = () => {
     setIsCopied(true);
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
+  const handleUpload = async () => {
     try {
       setOnUpload(true);
-      // openAssignmentDialog(assignmentType);
 
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
@@ -524,7 +522,7 @@ export const ClassPage = () => {
                               key={i}
                               htmlFor={type}
                               className={
-                                "bg-white flex justify-center items-center text-xl border border-black rounded-full w-10 h-10"
+                                "bg-white flex justify-center items-center text-xl border border-black rounded-full w-10 h-10 hover:cursor-pointer"
                               }
                             >
                               {icon}

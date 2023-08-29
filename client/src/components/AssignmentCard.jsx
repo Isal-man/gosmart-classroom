@@ -1,6 +1,7 @@
 import { BiSolidBookBookmark, BiTask } from "react-icons/bi";
 import { MdAnnouncement } from "react-icons/md"
 import { ShortenText } from "./ShortenedText";
+import { useNavigate } from "react-router-dom";
 
 export const AssignmentCard = ({
   id,
@@ -14,11 +15,15 @@ export const AssignmentCard = ({
   // variable
   const date = new Date(postDate);
 
+  // hooks
+  const navigate = useNavigate();
+
   return (
     <div
       className={
         "card box-shadow flex justify-start items-center gap-4 p-4 bg-white w-full h-full"
       }
+      onClick={() => navigate("/assignment/" + id)}
     >
       <div
         className={

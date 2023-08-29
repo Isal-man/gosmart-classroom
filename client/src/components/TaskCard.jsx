@@ -1,13 +1,19 @@
 import { BiTask } from "react-icons/bi";
 import { ShortenText } from "./ShortenedText";
+import { useNavigate } from "react-router-dom";
 
-export const TaskCard = ({ name, dueDate }) => {
+export const TaskCard = ({ id, name, dueDate }) => {
   const date = new Date(dueDate);
 
+  const navigate = useNavigate();
+
   return (
-    <div className={
-      "card box-shadow flex justify-start items-center gap-4 p-4 bg-white w-full h-full"
-    }>
+    <div
+      className={
+        "card box-shadow flex justify-start items-center gap-4 p-4 bg-white w-full h-full"
+      }
+      onClick={() => navigate("/assignment/" + id)}
+    >
       <div
         className={
           "flex justify-center items-center p-3 rounded-full text-2xl text-white bg-red-500"
@@ -17,10 +23,7 @@ export const TaskCard = ({ name, dueDate }) => {
       </div>
       <div>
         <p className={"text-sm font-medium"}>
-          <ShortenText
-            text={name}
-            maxLength={30}
-          />
+          <ShortenText text={name} maxLength={30} />
         </p>
         <div className={"text-xs"}>
           {date.toLocaleString("id-ID", {

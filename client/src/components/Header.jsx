@@ -223,12 +223,6 @@ export const Header = () => {
                   size="small"
                   onChange={(e) => setCourseCode(e.target.value)}
                 />
-                {/* <button
-                  className={"text-white bg-blue-500 w-full sm:w-1/2"}
-                  onClick={handleJoin}
-                >
-                  Gabung
-                </button> */}
                 <LoadingButton
                   type="submit"
                   loading={isLoading}

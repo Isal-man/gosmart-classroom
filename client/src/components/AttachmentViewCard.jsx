@@ -5,11 +5,11 @@ import { NavLink } from "react-router-dom";
 
 export const AttachmentViewCard = ({ name, type, size, url }) => {
   return (
-    <NavLink to={url} className="card box-shadow flex justify-start items-center gap-2 p-4 w-full">
+    <NavLink to={url} className="card box-shadow flex justify-start items-center gap-2 p-4 w-full hover:no-underline">
         <Avatar>
-          {type.includes("image") ? (
+          {type.match("image") ? (
             <BiImageAlt />
-          ) : type.includes("video") ? (
+          ) : type.match("video") ? (
             <BiVideo />
           ) : (
             <AiOutlineFile />

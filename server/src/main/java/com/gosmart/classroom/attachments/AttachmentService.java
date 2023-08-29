@@ -32,9 +32,14 @@ public class AttachmentService {
         return attachmentRepository.findAll();
     }
 
-    // Get all attachment By Assignment ID
-    public List<Attachments> findAllByAssignment(String id) {
-        return attachmentRepository.findAllByAssignmentsId(id);
+    // Get all attachment By Assignment ID and isTeacher
+    public List<Attachments> findAllByAssignmentAndStatus(String id, String status) {
+
+        if (!(status.equalsIgnoreCase("teacher"))) {
+            return attachmentRepository.findAllByAssignmentsIdAndEnrollments_IsStudent(id, true);
+        }
+
+        return attachmentRepository.findAllByAssignmentsIdAndEnrollments_IsTeacher(id, true);
     }
 
     // Get attachment by ID

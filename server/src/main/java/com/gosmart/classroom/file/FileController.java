@@ -20,6 +20,10 @@ public class FileController {
     @PostMapping
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
 
+        if (file.getSize() > 100 * 1024 * 1024) {
+            return ResponseEntity.badRequest().body("File tidak boleh lebih dari 100MB");
+        }
+
         FileResponse response = fileService.uploadFile(file);
 
         return ResponseEntity.ok(response);

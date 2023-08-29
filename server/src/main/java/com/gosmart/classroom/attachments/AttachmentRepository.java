@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachments, Integer> {
 
-    List<Attachments> findAllByAssignmentsId(String aid);
+    List<Attachments> findAllByAssignmentsIdAndEnrollments_IsTeacher(String aid, boolean t);
+    List<Attachments> findAllByAssignmentsIdAndEnrollments_IsStudent(String aid, boolean s);
 
 }

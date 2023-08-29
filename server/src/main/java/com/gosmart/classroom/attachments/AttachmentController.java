@@ -26,13 +26,16 @@ public class AttachmentController {
     }
 
     /*
-     * @detail Get all attachment by Assignment ID
-     * @method GET /api/v1/attachments/assignment?aid={}
+     * @detail Get all attachment by Assignment ID and status user
+     * @method GET /api/v1/attachments/assignment?aid={}&status={}
      * @access private
      */
     @GetMapping("/assignment")
-    public List<Attachments> findAllByAssignment(@RequestParam("aid") String aid) {
-        return attachmentService.findAllByAssignment(aid);
+    public List<Attachments> findAllByAssignmentAndTeacher(@RequestParam("aid") String aid,
+                                                           @RequestParam("status") String status) {
+
+
+        return attachmentService.findAllByAssignmentAndStatus(aid, status);
     }
 
     /*
