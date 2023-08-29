@@ -17,8 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,16 +34,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
 @EnableWebMvc
+@Component
 public class AuthController {
 
     private UserService userService;
@@ -154,7 +163,7 @@ public class AuthController {
                 "</html>";
 
         // send email
-        emailService.sendEmail(request.getEmail(), "Email Verification", emailContent);
+        emailService.sendEmailVerification(request.getEmail(), "Email Verification", emailContent);
 
         // Save user
         return ResponseEntity.ok(userService.insert(request));
@@ -201,8 +210,8 @@ public class AuthController {
         // Set authenticate
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Generate JWT Token from authentication user
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        // Generate JWT Token from local authentication user
+        String jwt = jwtUtils.generateJwtTokenLocal(authentication);
 
         // Put token to cookie
         Cookie cookie = new Cookie("token", jwt);
@@ -213,6 +222,30 @@ public class AuthController {
 
         // Get user
         UserDetailsImpl users = (UserDetailsImpl) authentication.getPrincipal();
+
+        // Return user detail response
+        return ResponseEntity.ok().body(users);
+
+    }
+
+    /*
+     * @detail Login or Register using OAuth
+     * @method GET /auth/oauth?email={}
+     * @access public
+     */
+    @GetMapping("/oauth")
+    public ResponseEntity<?> getUser(@RequestParam("email") String email, HttpServletResponse response) {
+        Users users = userService.findByEmail(email);
+
+        // Generate JWT Token from local authentication user
+        String jwt = jwtUtils.generateJwtTokenOnline(users.getEmail());
+
+        // Put token to cookie
+        Cookie cookie = new Cookie("token", jwt);
+        cookie.setMaxAge((int) (jwtUtils.getJwtExpirationMs() / 1000));
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
 
         // Return user detail response
         return ResponseEntity.ok().body(users);
@@ -263,4 +296,9 @@ public class AuthController {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    // @Override
+    // @GetMapping("/oauth")
+    // public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    //
+    // }
 }

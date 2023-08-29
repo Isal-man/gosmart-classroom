@@ -8,10 +8,11 @@ export const AssignmentCard = ({
   isMaterial,
   isTask,
   isAnnouncement,
+  postDate,
   users,
 }) => {
   // variable
-  const date = new Date();
+  const date = new Date(postDate);
 
   return (
     <div

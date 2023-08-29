@@ -19,7 +19,7 @@ export const App = () => {
   const url = useLocation();
 
   // variable
-  const path = url.pathname.includes("login") || url.pathname.includes("register") || url.pathname.includes("forgot-password") || url.pathname.includes("join-course")
+  const path = url.pathname.includes("login") || url.pathname.includes("register") || url.pathname.includes("forgot-password") || url.pathname.includes("join-course") || url.pathname.includes("oauth")
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>

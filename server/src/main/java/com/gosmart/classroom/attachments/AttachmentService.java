@@ -32,6 +32,11 @@ public class AttachmentService {
         return attachmentRepository.findAll();
     }
 
+    // Get all attachment By Assignment ID
+    public List<Attachments> findAllByAssignment(String id) {
+        return attachmentRepository.findAllByAssignmentsId(id);
+    }
+
     // Get attachment by ID
     public Attachments findById(Integer id) {
         return attachmentRepository.findById(id)
@@ -40,10 +45,10 @@ public class AttachmentService {
     }
 
     // Add attachment
-    public Object upload(MultipartFile file, String email, String id, String status) throws IOException {
+    public Object upload(AttachmentRequest attachmentRequest, String email, String id, String status) throws IOException {
 
         // Check if user exists
-        Users users = userService.findByEmail(email);
+        userService.findByEmail(email);
 
         // Check if assignment exists
         Assignments assignments = assignmentService.findById(id);
@@ -51,15 +56,12 @@ public class AttachmentService {
         // Check if enrollment exists
         Enrollments enrollments = enrollmentService.findByUsersEmailAndCourses_Id(email, assignments.getCourses().getId());
 
-        // Upload file and get response
-        FileResponse response = fileService.uploadFile(file);
-
         // Add attachment
         Attachments newAttachments = new Attachments();
-        newAttachments.setName(response.getFileName());
-        newAttachments.setUrl(response.getUrl());
-        newAttachments.setType(response.getType());
-        newAttachments.setSize(response.getSize());
+        newAttachments.setName(attachmentRequest.getFileName());
+        newAttachments.setUrl(attachmentRequest.getUrl());
+        newAttachments.setType(attachmentRequest.getType());
+        newAttachments.setSize(attachmentRequest.getSize());
 
         // Check who's send the attachment
         if (status.equalsIgnoreCase("teacher")) {

@@ -90,7 +90,10 @@ public class CourseService {
         newCourse.setId(id);
         newCourse.setName(courseRequest.getName());
         newCourse.setSchedule(courseRequest.getSchedule());
-        newCourse.setImage(courseRequest.getImage());
+
+        if (courseRequest.getImage().length() > 0)
+            newCourse.setImage(courseRequest.getImage());
+
         newCourse.setTheme(courseRequest.getTheme());
         newCourse.setUsers(users);
 

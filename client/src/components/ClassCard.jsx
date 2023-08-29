@@ -1,7 +1,4 @@
-import { AiOutlineNumber } from "react-icons/ai";
-
-// icons
-import { BiTask } from "react-icons/bi";
+import { BiArchiveIn, BiTask } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 export const ClassCard = ({ id, name, schedule, image, users }) => {
@@ -51,9 +48,9 @@ export const ClassCard = ({ id, name, schedule, image, users }) => {
           </span>
         </button>
         <button className={buttonStyle}>
-          <AiOutlineNumber />
+          <BiArchiveIn />
           <span className="tooltiptext">
-            lihat nilai
+            Arsipkan kelas
           </span>
         </button>
       </section>

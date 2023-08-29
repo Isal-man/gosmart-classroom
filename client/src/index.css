@@ -59,28 +59,56 @@ ol {
   @apply bg-red-500 hover:bg-red-200 border-red-500;
 }
 
+.red-text {
+  @apply text-red-400
+}
+
 .blue {
   @apply bg-blue-500 hover:bg-blue-200 border-blue-500;
+}
+
+.blue-text {
+  @apply text-blue-400
 }
 
 .green {
   @apply bg-green-500 hover:bg-green-200 border-green-500;
 }
 
+.green-text {
+  @apply text-green-400
+}
+
 .orange {
   @apply bg-orange-500 hover:bg-orange-200 border-orange-500;
+}
+
+.orange-text {
+  @apply text-orange-400
 }
 
 .cyan {
   @apply bg-cyan-500 hover:bg-cyan-200 border-cyan-500;
 }
 
+.cyan-text {
+  @apply text-cyan-400
+}
+
 .gray {
   @apply bg-gray-500 hover:bg-gray-200 border-gray-500;
 }
 
+.gray-text {
+  @apply text-gray-400
+}
+
 .purple {
   @apply bg-purple-500 text-purple-500 hover:bg-purple-200 border-purple-500;
+}
+
+.purple-text {
+  @apply text-purple-400
 }
 
 .block {

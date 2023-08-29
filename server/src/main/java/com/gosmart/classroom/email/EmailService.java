@@ -15,10 +15,22 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    public void sendEmail(String to, String subject, String content) throws MessagingException, UnsupportedEncodingException {
+    public void sendEmailVerification(String to, String subject, String content) throws MessagingException,
+            UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-        messageHelper.setFrom("noreply@gosmart.id", "Gosmart Classroom Admin");
+        messageHelper.setFrom("Gosmart Classroom Admin");
+        messageHelper.setTo(to);
+        messageHelper.setSubject(subject);
+        messageHelper.setText(content, true);
+        mailSender.send(message);
+    }
+
+    public void sendEmailAssignment(String from, String to, String subject, String content) throws MessagingException,
+            UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
+        messageHelper.setFrom("noreply@gmal.com", from);
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
         messageHelper.setText(content, true);

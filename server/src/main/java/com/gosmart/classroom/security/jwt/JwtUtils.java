@@ -47,10 +47,18 @@ public class JwtUtils {
         return false;
     }
 
-    public String generateJwtToken ( Authentication authentication ) {
+    public String generateJwtTokenLocal ( Authentication authentication ) {
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder().setSubject((principal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    public String generateJwtTokenOnline ( String email ) {
+        return Jwts.builder().setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

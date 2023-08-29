@@ -25,7 +25,7 @@ export const ListTaskPage = () => {
     };
     load();
     setIsLoading(false);
-  }, [token, setTasks]);
+  }, [token]);
 
   return (
     <ProtectedRoute>

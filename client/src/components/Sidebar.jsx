@@ -175,12 +175,6 @@ export const Sidebar = () => {
             </div>
             <p>Kelas yang diarsipkan</p>
           </section>
-          <section className={navStyle}>
-            <div className={iconNavStyle}>
-              <AiOutlineSetting />
-            </div>
-            <p>Setelan</p>
-          </section>
         </section>
       </aside>
     </div>

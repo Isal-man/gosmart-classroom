@@ -26,12 +26,22 @@ public class AttachmentController {
     }
 
     /*
+     * @detail Get all attachment by Assignment ID
+     * @method GET /api/v1/attachments?aid={}
+     * @access private
+     */
+    @GetMapping
+    public List<Attachments> findAllByAssignment(@RequestParam("aid") String aid) {
+        return attachmentService.findAllByAssignment(aid);
+    }
+
+    /*
      * @detail Get attachment by ID
      * @method GET /api/v1/attachments/{id}
      * @access private
      */
     @GetMapping("/{id}")
-    public Attachments findAll(@PathVariable("id") Integer id) {
+    public Attachments findById(@PathVariable("id") Integer id) {
         return attachmentService.findById(id);
     }
 
@@ -41,9 +51,9 @@ public class AttachmentController {
      * @access private
      */
     @PostMapping
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("user") String email,
-                                    @RequestParam("assignment") String id, @RequestParam("status") String status) throws IOException {
-        return ResponseEntity.ok(attachmentService.upload(file, email, id, status));
+    public ResponseEntity<?> upload(@RequestBody AttachmentRequest request, @RequestParam("user") String email,
+                                    @RequestParam("assignment") String aid, @RequestParam("status") String status) throws IOException {
+        return ResponseEntity.ok(attachmentService.upload(request, email, aid, status));
     }
 
 }

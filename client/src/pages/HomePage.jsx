@@ -6,6 +6,7 @@ import { api } from "../services/ApiService";
 import { useContext } from "react";
 import { AuthContext } from "../App";
 import { Box } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 export const Home = () => {
   // variable
@@ -16,8 +17,10 @@ export const Home = () => {
   const [courseStudent, setCourseStudent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(AuthContext);
+  const path = useLocation()
 
   useEffect(() => {
+    localStorage.setItem("url", path.pathname + path.search)
     const load = async () => {
       setIsLoading(true);
 

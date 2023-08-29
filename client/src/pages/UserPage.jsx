@@ -10,6 +10,7 @@ import { api } from "../services/ApiService";
 import { useContext } from "react";
 import { AuthContext } from "../App";
 import { useEffect } from "react";
+import { LoadingButton } from "@mui/lab";
 
 export const UserPage = () => {
   // variable
@@ -17,6 +18,8 @@ export const UserPage = () => {
 
   // state
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [onUpload, setOnUpload] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [editUser, setEditUser] = useState({
     fullName: user?.fullName,
@@ -27,15 +30,15 @@ export const UserPage = () => {
   const navigate = useNavigate();
 
   // context
-  const { token } = useContext(AuthContext)
+  const { token } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(token);
-  }, [token])
+  useEffect(() => {}, [token]);
 
   // handle
   const handleUpload = async (e) => {
     try {
+      setOnUpload(true)
+      setIsLoading(true)
       const imageBlob = URL.createObjectURL(e.target.files[0]);
       setImageUrl(imageBlob);
 
@@ -51,6 +54,8 @@ export const UserPage = () => {
 
       const result = await upload.data;
       setEditUser({ ...editUser, image: result.url });
+      setIsLoading(false)
+      setOnUpload(false)
     } catch (error) {
       console.log(error);
     }
@@ -60,10 +65,12 @@ export const UserPage = () => {
     if (isEditing) {
       setIsEditing(false);
     } else {
+      setIsLoading(true)
       fetch(APP_BACKEND + "auth/logout", {
         credentials: "include",
       });
       localStorage.removeItem("user");
+      setIsLoading(false)
       navigate("/login");
     }
   };
@@ -77,10 +84,17 @@ export const UserPage = () => {
   };
 
   const handleSubmit = async () => {
-    const edit = await api.put("api/v1/users?email=" + user?.email, token, editUser)
+    setIsLoading(true)
+    const edit = await api.put(
+      "api/v1/users?email=" + user?.email,
+      token,
+      editUser
+    );
     const result = await edit.json();
+    console.log(result);
     localStorage.removeItem("user");
-    localStorage.setItem("user", JSON.stringify(result))
+    localStorage.setItem("user", JSON.stringify(result));
+    setIsLoading(true)
     window.location.reload();
   };
 
@@ -124,48 +138,79 @@ export const UserPage = () => {
             "card box-shadow flex flex-col justify-center items-start gap-4 p-4 w-full sm:w-2/3 lg:w-1/2 h-full"
           }
         >
-          {[
-            [
-              "Full Name",
-              user?.fullName,
-              "Nama harus memiliki setidaknya 3 karakter, dan maksimal 50 karakter",
-            ],
-            ["Email", user?.email, "Masukan email dengan format yang sesuai"],
-            [
-              "Phone Number",
-              user?.phoneNumber,
-              "Awali nomor telepon dengan +62 dengan minimal 12 karakter dan maksimal 14 karakter",
-            ],
-          ].map(([title, value, info], i) => (
-            <label
-              key={i}
-              className={"flex flex-col justify-center items-start"}
-            >
-              {title}
-              <TextField
-                variant="standard"
-                fullWidth
-                value={value}
-                disabled={!isEditing}
-              />
-              {isEditing && (
-                <span className="text-xs text-gray-400">{info}</span>
-              )}
-            </label>
-          ))}
+          <label className={"flex flex-col justify-center items-start w-1/2"}>
+            Email
+            <TextField
+              variant="standard"
+              value={editUser?.email}
+              disabled={!isEditing}
+              onChange={(e) =>
+                setEditUser({ ...editUser, email: e.target.value })
+              }
+              className="w-full"
+            />
+            {isEditing && (
+              <span className="text-xs text-gray-400">
+                Masukan email dengan format yang sesuai
+              </span>
+            )}
+          </label>
+          <label className={"flex flex-col justify-center items-start w-1/2"}>
+            Nama lengkap
+            <TextField
+              variant="standard"
+              value={editUser?.fullName}
+              disabled={!isEditing}
+              onChange={(e) =>
+                setEditUser({ ...editUser, fullName: e.target.value })
+              }
+              className="w-full"
+            />
+            {isEditing && (
+              <span className="text-xs text-gray-400">
+                Nama harus memiliki setidaknya 3 karakter, dan maksimal 50
+                karakter
+              </span>
+            )}
+          </label>
+          <label className={"flex flex-col justify-center items-start w-1/2"}>
+            Nomor handphone
+            <TextField
+              variant="standard"
+              value={editUser?.phoneNumber}
+              disabled={!isEditing}
+              onChange={(e) =>
+                setEditUser({ ...editUser, phoneNumber: e.target.value })
+              }
+              className="w-full"
+            />
+            {isEditing && (
+              <span className="text-xs text-gray-400">
+                Awali nomor telepon dengan +62 dengan minimal 12 karakter dan
+                maksimal 14 karakter
+              </span>
+            )}
+          </label>
         </div>
         <div
           className={
             "flex justify-between items-center p-2 w-full sm:w-2/3 lg:w-1/2"
           }
         >
-          <button
+          <LoadingButton
+            type="submit"
+            loading={isLoading}
+            loadingIndicator={onUpload ? "Mengupload..." : "Menyimpan"}
+            variant="contained"
             className={"bg-blue-500 text-white"}
             onClick={() => handleEdit(isEditing)}
           >
-            {isEditing ? "Save" : "Edit"}
-          </button>
-          <button className={"bg-red-500 text-white"} onClick={() => handleCancel(isEditing)}>
+            <span>{isEditing ? "Save" : "Edit"}</span>
+          </LoadingButton>
+          <button
+            className={"bg-red-500 text-white"}
+            onClick={() => handleCancel(isEditing)}
+          >
             {isEditing ? "Cancel" : "Log Out"}
           </button>
         </div>

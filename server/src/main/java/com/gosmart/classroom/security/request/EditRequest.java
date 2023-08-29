@@ -19,7 +19,6 @@ public class EditRequest {
     @Pattern(regexp = "^(?!.*(.)\\1\\1)(?!.*(?:''|[' ]{2}))[a-zA-Z'-]+([ ][a-zA-Z'-]+)*(?!.*  )[a-zA-Z'-]+$", message = "Invalid name format")
     private String fullName;
 
-    @NotBlank(message = "Phone number cannot be empty")
     @Pattern(regexp = "(^\\+62\\d{9,12}$)", message = "Invalid phone number format, telephone number must be preceded by +62")
     private String phoneNumber;
 

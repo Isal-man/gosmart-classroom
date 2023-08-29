@@ -1,6 +1,7 @@
 package com.gosmart.classroom.attachments;
 
 import com.gosmart.classroom.assignments.Assignments;
+import com.gosmart.classroom.courses.Courses;
 import com.gosmart.classroom.enrollment.Enrollments;
 import lombok.Getter;
 import lombok.Setter;

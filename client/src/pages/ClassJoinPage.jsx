@@ -27,20 +27,27 @@ export const ClassJoinPage = () => {
   // hooks
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isEnrolled, setIsEnrolled] = useState();
   const { cid } = useParams();
   const query = useLocation();
 
   useEffect(() => {
+    localStorage.setItem("url", query.pathname + query.search)
     const load = async () => {
-      const requestJoin = await api.get("api/v1/enrollments/sid/" + user?.email + "/cid/" + cid, token);
+      const requestJoin = await api.get(
+        "api/v1/enrollments/sid/" + user?.email + "/cid/" + cid,
+        token
+      );
       const result = await requestJoin.text();
-      if (result.match("enroll")) {
+      setIsEnrolled(result);
+      if (isEnrolled === "enroll") {
         window.location.href = "http://localhost:5173/course/" + cid;
       }
     };
-    load();
     setIsLoading(false);
-  }, [token]);
+    load();
+    // handleCheck(isEnrolled);
+  }, [token, isEnrolled]);
 
   // handle
   const handleClose = () => {
@@ -71,11 +78,13 @@ export const ClassJoinPage = () => {
     <ProtectedRoute>
       <Dialog open={open} onClose={handleClose} fullScreen>
         <DialogContent>
-          <div className="flex justify-between items-center text-center w-full">
-            <p className={"text-2xl"}>Gabung kursus</p>
+          <div className="flex justify-between items-center text-center w-full mb-10">
+            <p className={"text-2xl"}>
+              Gabung kursus
+            </p>
             <button
               onClick={handleClose}
-              className="bg flex justify-center items-center text-2xl w-1/5"
+              className="bg-white flex justify-center items-center text-2xl w-10 rounded-full hover:bg-slate-200"
             >
               <AiOutlineClose />
             </button>
@@ -91,23 +100,20 @@ export const ClassJoinPage = () => {
               Gosmart Classroom
             </p>
             <p className="text-xl text-center">Be smart, Be useful</p>
-            <p className="text-center">
-              Gosmart Classroom dibuat untuk dijadikan sarana belajar secara
-              online, agar siapapun yang ingin mengembangkan pengetahuannya
-              tidak akan terkendala waktu dan tempat, karena mereka dapat
-              belajar dari mana saja.
+            <p className="text-center w-full sm:w-3/4">
+            Gosmart Classroom adalah aplikasi pintar yang efisien dan berguna untuk pembelajaran di mana saja. Memberikan pengalaman interaktif dengan alat canggih untuk belajar tanpa batasan tempat.
             </p>
           </div>
           <div className="flex flex-col justify-center items-center gap-4 p-4">
             {/* User card */}
-            <div className="card box-shadow flex flex-col justify-center items-start gap-2 p-4 bg-white rounded-md">
+            <div className="card box-shadow flex flex-col justify-center items-start gap-2 p-4 bg-white rounded-md w-full sm:w-3/4 md:w-1/2">
               <p>Anda login sebagai:</p>
-              <div className={"flex justify-center items-start gap-2 p-2"}>
+              <div className={"flex justify-center items-center gap-2 p-2"}>
                 {/* User image */}
                 <img
                   src={user?.image}
                   alt="User"
-                  className="w-12 h-12 rounded-full"
+                  className="w-12 h-9 rounded-full"
                 />
                 {/* User info */}
                 <div
@@ -130,8 +136,8 @@ export const ClassJoinPage = () => {
               </Button>
             </div>
             {/* Course code card */}
-            <div className="card box-shadow flex flex-col items-start gap-4 p-4 bg-white rounded-md mt-4">
-              <p className="text-sm">Anda bergabung sebagai peserta</p>
+            <div className="card box-shadow flex flex-col items-start gap-4 p-4 bg-white rounded-md mt-4 w-full sm:w-3/4 md:w-1/2 ">
+              <p className="text-sm text-center w-full">Anda bergabung sebagai peserta</p>
               <button
                 className={"text-white bg-blue-500 w-full"}
                 onClick={handleJoin}

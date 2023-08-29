@@ -11,6 +11,11 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { APP_BACKEND } from "../config/constant";
+import { NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export const LoginPage = () => {
   // hooks
@@ -18,9 +23,19 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [user, setUser] = useState({});
+  const search = useLocation();
+  const path = localStorage.getItem("url")
+
+  // variable
+  const email = search.search.substring(7);
+
+  useEffect(() => {
+    email && setErrorSnackbarOpen(true)
+  }, [])
 
   // Handle function
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault()
     try {
       setLoading(true);
 
@@ -45,7 +60,7 @@ export const LoginPage = () => {
         setErrorSnackbarOpen(true);
       } else {
         setLoading(false);
-        history.back();
+        window.location.href = path
       }
     } catch (error) {
       alert(error);
@@ -86,7 +101,7 @@ export const LoginPage = () => {
           className={"flex flex-col gap-4 p-4 w-full border-b-2 border-slate-300"}
           onSubmit={(e) => {
             e.preventDefault();
-            handleClick();
+            handleClick(e);
           }}
         >
           <TextField
@@ -137,14 +152,14 @@ export const LoginPage = () => {
             {"Don't have an account yet?"}
           </Link>
           <p>or login with:</p>
-          <button className={buttonStyle}>
+          <NavLink to={APP_BACKEND + "oauth2/authorization/google"} className={buttonStyle}>
             <img src="/logo-google.png" className={imageStyle} />
             Continue with google
-          </button>
-          <button className={buttonStyle}>
-            <img src="/logo-github.png" className={imageStyle} />
-            Continue with github
-          </button>
+          </NavLink>
+          <NavLink to={APP_BACKEND + "oauth2/authorization/facebook"} className={buttonStyle} >
+            <img src="/logo-facebook.png" className={imageStyle} />
+            Continue with facebook
+          </NavLink>
         </footer>
       </div>
       <Snackbar

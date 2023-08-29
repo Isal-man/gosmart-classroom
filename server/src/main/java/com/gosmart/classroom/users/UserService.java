@@ -64,6 +64,8 @@ public class UserService {
 
     // Update user
     public Users update(EditRequest request, String email) {
+        System.out.println(email);
+        System.out.println(request.getImage());
         Users newUser = new Users();
         List<Enrollments> enrollments = null;
         Students students = null;
