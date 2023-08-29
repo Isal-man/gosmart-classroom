@@ -27,10 +27,10 @@ public class AttachmentController {
 
     /*
      * @detail Get all attachment by Assignment ID
-     * @method GET /api/v1/attachments?aid={}
+     * @method GET /api/v1/attachments/assignment?aid={}
      * @access private
      */
-    @GetMapping
+    @GetMapping("/assignment")
     public List<Attachments> findAllByAssignment(@RequestParam("aid") String aid) {
         return attachmentService.findAllByAssignment(aid);
     }

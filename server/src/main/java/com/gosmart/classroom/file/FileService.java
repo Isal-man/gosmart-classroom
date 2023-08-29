@@ -25,7 +25,7 @@ public class FileService {
 
         Storage storage = StorageClient.getInstance().bucket(firebaseConfigProperties.getStorageBucket()).getStorage();
 
-        String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+        String fileName = file.getOriginalFilename();
         String mimeType = file.getContentType();
         Long fileSize = file.getSize();
 
