@@ -4,14 +4,11 @@ import com.gosmart.classroom.assignments.AssignmentService;
 import com.gosmart.classroom.assignments.Assignments;
 import com.gosmart.classroom.enrollment.EnrollmentService;
 import com.gosmart.classroom.enrollment.Enrollments;
-import com.gosmart.classroom.file.FileResponse;
 import com.gosmart.classroom.file.FileService;
 import com.gosmart.classroom.users.UserService;
-import com.gosmart.classroom.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +39,11 @@ public class AttachmentService {
         return attachmentRepository.findAllByAssignmentsIdAndEnrollments_IsTeacher(id, true);
     }
 
+    // Get all attachment by Assignment ID and User email
+    public List<Attachments> findAllByAssignmentAndUser(String aid, String email) {
+        return attachmentRepository.findAllByAssignmentsIdAndAndEnrollments_Users_Email(aid, email);
+    }
+
     // Get attachment by ID
     public Attachments findById(Integer id) {
         return attachmentRepository.findById(id)
@@ -61,9 +63,17 @@ public class AttachmentService {
         // Check if enrollment exists
         Enrollments enrollments = enrollmentService.findByUsersEmailAndCourses_Id(email, assignments.getCourses().getId());
 
+        if (attachmentRepository.existsByFileNameAndAndEnrollments_Users_Email(attachmentRequest.getFileName(), email)) {
+            Attachments attachments =
+                    attachmentRepository.findByFileNameAndEnrollments_Users_Email(attachmentRequest.getFileName(), email)
+                    .orElseThrow(() -> new RuntimeException("Attachment not found"));
+
+            return ResponseEntity.ok(attachments);
+        }
+
         // Add attachment
         Attachments newAttachments = new Attachments();
-        newAttachments.setName(attachmentRequest.getFileName());
+        newAttachments.setFileName(attachmentRequest.getFileName());
         newAttachments.setUrl(attachmentRequest.getUrl());
         newAttachments.setType(attachmentRequest.getType());
         newAttachments.setSize(attachmentRequest.getSize());

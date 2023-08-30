@@ -17,7 +17,7 @@ public class Attachments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
+    private String fileName;
     private String url;
     private String type;
     private Long size;
