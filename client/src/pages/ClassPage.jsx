@@ -45,6 +45,7 @@ import {
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { APP_BACKEND, APP_FRONTEND } from "../config/constant";
 
 export const ClassPage = () => {
   // variable
@@ -54,7 +55,7 @@ export const ClassPage = () => {
   const today = dayjs();
 
   // hooks
-  const [isEnrolled, setIsEnrolled] = useState()
+  const [isEnrolled, setIsEnrolled] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [onUpload, setOnUpload] = useState(false);
   const [onPosting, setOnPosting] = useState(false);
@@ -83,10 +84,7 @@ export const ClassPage = () => {
 
   const open = Boolean(anchorEl);
   const link =
-    "http://localhost:5173/course/" +
-    cid +
-    "/join-course?cc=" +
-    cid.substring(0, 8);
+    APP_FRONTEND + "/course/" + cid + "/join-course?cc=" + cid.substring(0, 8);
 
   // context
   const { token } = useContext(AuthContext);
@@ -96,7 +94,7 @@ export const ClassPage = () => {
     localStorage.setItem("url", path.pathname + path.search);
     const load = async () => {
       const requestJoin = await api.get(
-        "api/v1/enrollments/sid/" + user?.email + "/cid/" + cid,
+        "/api/v1/enrollments/sid/" + user?.email + "/cid/" + cid,
         token
       );
       const result = await requestJoin.text();
@@ -104,15 +102,21 @@ export const ClassPage = () => {
       if (isEnrolled === "not enroll") {
         window.location.href = link;
       }
-      const course = await api.get("api/v1/courses/" + cid, token);
+      const course = await api.get("/api/v1/courses/" + cid, token);
       const getCourse = await course.json();
       setCourse(getCourse);
 
-      const assignments = await api.get("api/v1/assignments/cid/" + cid, token);
+      const assignments = await api.get(
+        "/api/v1/assignments/cid/" + cid,
+        token
+      );
       const getAssignments = await assignments.json();
       setAssignments(getAssignments);
 
-      const enrollments = await api.get("api/v1/enrollments/cid/" + cid, token);
+      const enrollments = await api.get(
+        "/api/v1/enrollments/cid/" + cid,
+        token
+      );
       const getEnrollments = await enrollments.json();
       setEnrollments(getEnrollments);
     };
@@ -157,7 +161,7 @@ export const ClassPage = () => {
 
   const handleCloseAssignment = () => {
     setOpenAssignment(false);
-    setAnchorEl(null)
+    setAnchorEl(null);
   };
 
   const handleCopyToClipboard = (text) => {
@@ -173,10 +177,7 @@ export const ClassPage = () => {
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
 
-      const upload = await axios.post(
-        "http://localhost:7060/api/v1/upload",
-        formData
-      );
+      const upload = await axios.post(APP_BACKEND + "/api/v1/upload", formData);
 
       const result = await upload.data;
       setAttachments([...attachments, result]);
@@ -189,7 +190,7 @@ export const ClassPage = () => {
   const handleSubmit = async () => {
     setOnPosting(true);
     const postAssignment = await api.post(
-      "api/v1/assignments/" + course.id + "?type=" + assignmentType,
+      "/api/v1/assignments/" + course.id + "?type=" + assignmentType,
       token,
       assignment
     );
@@ -198,7 +199,7 @@ export const ClassPage = () => {
       attachments.forEach(
         async (attach) =>
           await api.post(
-            "api/v1/attachments?user=" +
+            "/api/v1/attachments?user=" +
               user.email +
               "&assignment=" +
               getAssignment?.id +
@@ -211,24 +212,24 @@ export const ClassPage = () => {
     setAttachments([]);
     handleCloseAssignment(true);
     setPosted(true);
-    setAssignments([...assignments, getAssignment])
+    setAssignments([...assignments, getAssignment]);
     sendEmail(assignment.name);
   };
 
   const sendEmail = (name) => {
     enrollments.forEach((e) => {
       if (e?.users?.email !== user?.email && e?.users?.email) {
-        let studentEmail = e?.users?.email
+        let studentEmail = e?.users?.email;
         const emailRequest = {
           teacherName: course?.users?.fullName,
           studentEmail,
-          assignmentName: name
-        }
-  
-        api.post("api/v1/send-email", token, emailRequest);
+          assignmentName: name,
+        };
+
+        api.post("/api/v1/send-email", token, emailRequest);
       }
-    })
-  }
+    });
+  };
 
   // style
   const assignmentStyle =
@@ -316,7 +317,12 @@ export const ClassPage = () => {
                 </div>
                 <div className={assignmentStyle}>
                   {assignments.map((a) => (
-                    <AssignmentCard key={a?.id} {...a} users={course.users} />
+                    <AssignmentCard
+                      key={a?.id}
+                      {...a}
+                      users={course.users}
+                      cid={cid}
+                    />
                   ))}
                 </div>
               </>

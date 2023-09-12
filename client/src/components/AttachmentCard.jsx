@@ -6,7 +6,7 @@ export const AttachmentCard = ({ fileName, type, size }) => {
   return (
     <div className="card box-shadow flex justify-center items-center gap-2 p-4 w-full">
       <div className={"flex justify-start items-center gap-2 w-full"}>
-        <Avatar>
+        <Avatar sx={{ width: '32px', height: "32px" }}>
           {type.includes("image") ? (
             <BiImageAlt />
           ) : type.includes("video") ? (
@@ -24,7 +24,7 @@ export const AttachmentCard = ({ fileName, type, size }) => {
           </p>
         </div>
       </div>
-      <Avatar>
+      <Avatar sx={{ width: '32px', height: "32px" }}>
         <AiOutlineClose />
       </Avatar>
     </div>

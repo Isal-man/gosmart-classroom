@@ -25,14 +25,14 @@ export const Home = () => {
       setIsLoading(true);
 
       const getTeacherCourses = await api.get(
-        "api/v1/courses/s/teacher?email=" + user.email,
+        "/api/v1/courses/s/teacher?email=" + user.email,
         token
       );
       const teacherCourses = await getTeacherCourses.json();
       setCourseTeacher(teacherCourses);
 
       const getStudentCourses = await api.get(
-        "api/v1/courses/s/student?email=" + user.email,
+        "/api/v1/courses/s/student?email=" + user.email,
         token
       );
       const studentCourses = await getStudentCourses.json();

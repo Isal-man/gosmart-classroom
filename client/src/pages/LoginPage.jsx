@@ -38,8 +38,7 @@ export const LoginPage = () => {
     e.preventDefault()
     try {
       setLoading(true);
-
-      const request = await fetch("http://localhost:7060/auth/login", {
+      const request = await fetch(APP_BACKEND + "/auth/login", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -152,11 +151,11 @@ export const LoginPage = () => {
             {"Don't have an account yet?"}
           </Link>
           <p>or login with:</p>
-          <NavLink to={APP_BACKEND + "oauth2/authorization/google"} className={buttonStyle}>
+          <NavLink to={APP_BACKEND + "/oauth2/authorization/google"} className={buttonStyle}>
             <img src="/logo-google.png" className={imageStyle} />
             Continue with google
           </NavLink>
-          <NavLink to={APP_BACKEND + "oauth2/authorization/facebook"} className={buttonStyle} >
+          <NavLink to={APP_BACKEND + "/oauth2/authorization/facebook"} className={buttonStyle} >
             <img src="/logo-facebook.png" className={imageStyle} />
             Continue with facebook
           </NavLink>

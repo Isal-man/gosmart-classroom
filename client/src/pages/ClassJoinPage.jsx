@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import { api } from "../services/ApiService";
 import { ProtectedRoute } from "../components";
+import { APP_FRONTEND } from "../config/constant";
 
 export const ClassJoinPage = () => {
   // variable
@@ -35,19 +36,21 @@ export const ClassJoinPage = () => {
     localStorage.setItem("url", query.pathname + query.search)
     const load = async () => {
       const requestJoin = await api.get(
-        "api/v1/enrollments/sid/" + user?.email + "/cid/" + cid,
+        "/api/v1/enrollments/sid/" + user?.email + "/cid/" + cid,
         token
       );
       const result = await requestJoin.text();
       setIsEnrolled(result);
-      if (isEnrolled === "enroll") {
-        window.location.href = "http://localhost:5173/course/" + cid;
-      }
     };
     setIsLoading(false);
     load();
-    // handleCheck(isEnrolled);
   }, [token, isEnrolled]);
+
+  useEffect(() => {
+    if (isEnrolled === "enroll") {
+      window.location.href = APP_FRONTEND + "/course/" + cid;
+    }
+  }, [isEnrolled])
 
   // handle
   const handleClose = () => {
@@ -64,7 +67,7 @@ export const ClassJoinPage = () => {
     );
     const result = await requestJoin.text();
     if (result.match("enroll")) {
-      window.location.href = "http://localhost:5173/course/" + cid;
+      window.location.href = APP_FRONTEND +  "/course/" + cid;
     }
     window.location.href = result;
   };

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { APP_BACKEND, APP_FRONTEND } from "../config/constant";
 import { useLocation } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import { json } from "react-router-dom";
 
 export const OAuthPage = () => {
   // variable
@@ -15,7 +14,7 @@ export const OAuthPage = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetch(APP_BACKEND + "auth/oauth?email=" + email.search.substring(7), {
+    fetch(APP_BACKEND + "/auth/oauth?email=" + email.search.substring(7), {
       credentials: "include",
     }).then(async (response) => {
       if (response.ok) {
@@ -29,7 +28,7 @@ export const OAuthPage = () => {
   }, [email])
 
   const redirect = () => {
-    window.location.href = path;
+    window.location.href = path || "/";
   }
 
   return isLoading ? (

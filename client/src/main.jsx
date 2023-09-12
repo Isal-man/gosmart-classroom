@@ -43,7 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/course/:cid" element={<ClassPage />} />
           <Route path="/course/:cid/join-course" element={<ClassJoinPage />} />
           <Route path="/task/:cid" element={<ListTaskPage />} />
-          <Route path="/assignment/:aid" element={<AssignmentPage />} />
+          <Route path="/course/:cid/assignment/:aid" element={<AssignmentPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

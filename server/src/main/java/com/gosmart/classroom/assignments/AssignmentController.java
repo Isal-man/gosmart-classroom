@@ -60,11 +60,6 @@ public class AssignmentController {
                                     @PathVariable("courseId") String courseId,
                                     @RequestParam("type") String type, BindingResult bindingResult) {
 
-        // // Check if validation errors
-        // if (bindingResult.hasErrors()) {
-        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        // }
-
         return ResponseEntity.ok(assignmentService.insert(assignmentRequest, courseId, type));
 
     }

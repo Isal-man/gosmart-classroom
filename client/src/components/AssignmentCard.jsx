@@ -11,6 +11,7 @@ export const AssignmentCard = ({
   isAnnouncement,
   postDate,
   users,
+  cid
 }) => {
   // variable
   const date = new Date(postDate);
@@ -23,7 +24,7 @@ export const AssignmentCard = ({
       className={
         "card box-shadow flex justify-start items-center gap-4 p-4 bg-white w-full h-full"
       }
-      onClick={() => navigate("/assignment/" + id)}
+      onClick={() => navigate("/course/" + cid + "/assignment/" + id)}
     >
       <div
         className={

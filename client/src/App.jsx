@@ -64,6 +64,7 @@ export const translate = {
     clr: "Kalender",
     tch: "Teach",
     rg: "Terdaftar",
+    arc: "Kelas yang diarsipkan",
   }
 }
 

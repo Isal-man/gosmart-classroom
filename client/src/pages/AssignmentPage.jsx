@@ -14,6 +14,8 @@ import { AiOutlineFile } from "react-icons/ai";
 import { BiImageAlt, BiVideo } from "react-icons/bi";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { APP_BACKEND } from "../config/constant";
 
 export const AssignmentPage = () => {
   // variable
@@ -30,36 +32,41 @@ export const AssignmentPage = () => {
   const [teacherAttachments, setTeacherAttachments] = useState([]);
   const [onUpload, setOnUpload] = useState(false);
   const [onPosting, setOnPosting] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const [assignment, setAssignment] = useState({});
   const [teacher, setTeacher] = useState({});
   const { aid } = useParams();
 
   useEffect(() => {
     const load = async () => {
-      const getAssignment = await api.get("api/v1/assignments/" + aid, token);
+      const getAssignment = await api.get("/api/v1/assignments/" + aid, token);
       const resultAssignment = await getAssignment.json();
       setAssignment(resultAssignment);
       setTeacher({ ...resultAssignment.courses.users });
 
       const getTeacherAttachments = await api.get(
-        "api/v1/attachments/assignment?aid=" + aid + "&status=teacher",
+        "/api/v1/attachments/as/" + aid + "/teacher",
         token
       );
       const resultTeacherAttachments = await getTeacherAttachments.json();
       setTeacherAttachments(resultTeacherAttachments);
-      console.log(resultTeacherAttachments);
 
       const getStudentAttachments = await api.get(
-        "api/v1/attachments/assignment?aid=" + aid + "&status=student",
+        "/api/v1/attachments/au/" + aid + "/" + user.email,
         token
       );
       const resultStudentAttachments = await getStudentAttachments.json();
       setStudentAttachments(resultStudentAttachments);
-      console.log(resultStudentAttachments);
     };
     load();
     setIsLoading(false);
-  }, [token, setTeacherAttachments, setAssignment, setTeacher, setStudentAttachments]);
+  }, [token]);
+
+  useEffect(() => {
+    if (studentAttachments.length > 0) {
+      setIsPosting(true);
+    }
+  }, [studentAttachments]);
 
   const dueDate = new Date(assignment.dueDate);
 
@@ -72,12 +79,11 @@ export const AssignmentPage = () => {
       formData.append("file", e.target.files[0]);
 
       const upload = await axios.post(
-        "http://localhost:7060/api/v1/upload",
+        APP_BACKEND + "/api/v1/upload",
         formData
       );
 
       const result = await upload.data;
-      console.log(result);
       setAttachments([...attachments, result]);
       setOnUpload(false);
     } catch (error) {
@@ -85,23 +91,28 @@ export const AssignmentPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    setIsPosting(false);
+    setAttachments([...attachments, ...studentAttachments])
+  };
+  
   const handleSubmit = async () => {
     setOnPosting(true);
-    attachments.length > 0 &&
-      attachments.forEach(
-        async (attach) =>
-          await api.post(
-            "api/v1/attachments?user=" +
-              user.email +
-              "&assignment=" +
-              aid +
-              "&status=student",
-            token,
-            attach
-          )
+    
+    if (attachments.length > 0) {
+      // Assuming api.post returns a Promise
+      const postPromises = attachments.map(attach =>
+        api.post(
+          "/api/v1/attachments?user=" + user.email + "&assignment=" + aid + "&status=student",
+          token,
+          attach
+        )
       );
+      
+      await Promise.all(postPromises);
+    }
+  
     setOnPosting(false);
-    setPosted(true);
     setStudentAttachments([...attachments]);
     setAttachments([]);
   };
@@ -132,7 +143,7 @@ export const AssignmentPage = () => {
           </div>
           {assignment.dueDate && (
             <p className={"font-bold"}>
-              tenggat {": "}
+              Tenggat {": "}
               {dueDate?.toLocaleString("id", {
                 year: "numeric",
                 month: "short",
@@ -153,8 +164,8 @@ export const AssignmentPage = () => {
           {!user?.fullName.match(teacher?.fullName) && assignment.isTask && (
             <>
               <div className="card box-shadow flex flex-col justify-center items-center gap-4 p-4 w-full lg:w-3/5 xl:w-1/2 bg-white rounded-md">
-                {studentAttachments.length > 0 ? (
-                  <div className="w-full">
+                {studentAttachments.length > 0 && attachments.length === 0 && isPosting ? (
+                  <div className="flex flex-col gap-4 p-2 w-full">
                     {studentAttachments.map((stach) => (
                       <AttachmentViewCard key={stach.id} {...stach} />
                     ))}
@@ -162,7 +173,7 @@ export const AssignmentPage = () => {
                 ) : (
                   <>
                     <p>Lampiran</p>
-                    {!attachments.length > 0 ? (
+                    {attachments.length === 0 ? (
                       <p className="text-center">
                         Belum ada lampiran <br /> (Ukuran maksimal 100MB)
                       </p>
@@ -212,14 +223,18 @@ export const AssignmentPage = () => {
                 </p>
                 <LoadingButton
                   type="submit"
-                  disabled={date > dueDate}
+                  disabled={
+                    date > dueDate ||
+                    (attachments.length === 0 &&
+                    attachments.length === studentAttachments.length)
+                  }
                   loading={onPosting || onUpload}
                   loadingIndicator={onUpload ? "Mengupload" : "Memposting..."}
                   variant="contained"
                   className={"text-white bg-blue-500 w-full sm:w-1/2"}
-                  onClick={handleSubmit}
+                  onClick={isPosting ? handleCancel : handleSubmit}
                 >
-                  <span>Posting</span>
+                  <span>{isPosting ? "Batalkan" : "Posting"}</span>
                 </LoadingButton>
               </div>
             </>

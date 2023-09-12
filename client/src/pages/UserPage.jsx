@@ -45,10 +45,8 @@ export const UserPage = () => {
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
 
-      console.log("FormData:", formData); // Check if formData contains the file
-
       const upload = await axios.post(
-        "http://localhost:7060/api/v1/upload",
+        APP_BACKEND + "/api/v1/upload",
         formData
       );
 
@@ -66,7 +64,7 @@ export const UserPage = () => {
       setIsEditing(false);
     } else {
       setIsLoading(true)
-      fetch(APP_BACKEND + "auth/logout", {
+      fetch(APP_BACKEND + "/auth/logout", {
         credentials: "include",
       });
       localStorage.removeItem("user");
@@ -86,12 +84,11 @@ export const UserPage = () => {
   const handleSubmit = async () => {
     setIsLoading(true)
     const edit = await api.put(
-      "api/v1/users?email=" + user?.email,
+      "/api/v1/users?email=" + user?.email,
       token,
       editUser
     );
     const result = await edit.json();
-    console.log(result);
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(result));
     setIsLoading(true)

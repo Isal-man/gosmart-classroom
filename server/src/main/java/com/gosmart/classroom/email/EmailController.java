@@ -24,7 +24,8 @@ public class EmailController {
         Assignments assignments = assignmentRepository.findByName(emailRequest.getAssignmentName())
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
 
-        String assignmentLink = "http://localhost:5173/assignment/" + assignments.getId();
+        String assignmentLink =
+                "https://localhost:5173/course/" + assignments.getCourses().getId() + "/assignment/" + assignments.getId();
 
         String emailContent = "<!DOCTYPE html>\n" +
                 "<html>\n" +

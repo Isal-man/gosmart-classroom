@@ -19,7 +19,7 @@ export const ListTaskPage = () => {
 
   useEffect(() => {
     const load = async () => {
-      const tasks = await api.get("api/v1/assignments/cid/" + cid, token);
+      const tasks = await api.get("/api/v1/assignments/cid/" + cid, token);
       const getTasks = await tasks.json();
       setTasks(getTasks);
     };
@@ -54,7 +54,7 @@ export const ListTaskPage = () => {
               {user?.fullName}
             </p>
             <div className={"flex flex-col justify-center gap-4 w-full sm:w-1/2"}>
-              {tasks.map((t) => t.isTask && <TaskCard key={t?.id} {...t} />)}
+              {tasks.map((t) => t.isTask && <TaskCard key={t?.id} {...t} cid/>)}
             </div>
           </div>
         </div>

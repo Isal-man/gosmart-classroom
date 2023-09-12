@@ -2,7 +2,7 @@ import { BiTask } from "react-icons/bi";
 import { ShortenText } from "./ShortenedText";
 import { useNavigate } from "react-router-dom";
 
-export const TaskCard = ({ id, name, dueDate }) => {
+export const TaskCard = ({ id, name, dueDate, cid }) => {
   const date = new Date(dueDate);
 
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const TaskCard = ({ id, name, dueDate }) => {
       className={
         "card box-shadow flex justify-start items-center gap-4 p-4 bg-white w-full h-full"
       }
-      onClick={() => navigate("/assignment/" + id)}
+      onClick={() => navigate("/course/" + cid + "/assignment/" + id)}
     >
       <div
         className={

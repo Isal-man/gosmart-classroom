@@ -35,6 +35,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
             userRepository.save(newUser);
         }
         new DefaultRedirectStrategy().sendRedirect(request, response,
-                "http://localhost:5173/oauth?email=" + user.getAttribute("email"));
+                "https://gosmart-classroom.vercel.app/oauth?email=" + user.getAttribute("email"));
     }
 }

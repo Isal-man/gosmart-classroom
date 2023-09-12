@@ -17,6 +17,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { APP_BACKEND } from "../config/constant";
 
 export const RegisterPage = () => {
   // hooks
@@ -38,7 +39,7 @@ export const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const regist = await fetch("http://localhost:7060/auth/register", {
+      const regist = await fetch(APP_BACKEND + "/auth/register", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -154,14 +155,14 @@ export const RegisterPage = () => {
         </form>
         <footer className="flex flex-col gap-4 w-full items-center">
           <p>or register with:</p>
-          <button className={buttonStyle}>
+          <NavLink to={APP_BACKEND + "/oauth2/authorization/google"} className={buttonStyle}>
             <img src="/logo-google.png" className={imageStyle} />
             Continue with google
-          </button>
-          <button className={buttonStyle}>
-            <img src="/logo-github.png" className={imageStyle} />
-            Continue with github
-          </button>
+          </NavLink>
+          <NavLink to={APP_BACKEND + "/oauth2/authorization/facebook"} className={buttonStyle} >
+            <img src="/logo-facebook.png" className={imageStyle} />
+            Continue with facebook
+          </NavLink>
         </footer>
       </div>
       <Dialog open={openPopup} onClose={handlePopupClose}>

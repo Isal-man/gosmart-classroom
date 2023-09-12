@@ -19,7 +19,7 @@ public class EmailService {
             UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-        messageHelper.setFrom("Gosmart Classroom Admin");
+        messageHelper.setFrom("noreply@gosmartclassroom.com","Gosmart Classroom Admin");
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
         messageHelper.setText(content, true);
@@ -30,7 +30,7 @@ public class EmailService {
             UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-        messageHelper.setFrom("noreply@gmal.com", from);
+        messageHelper.setFrom("noreply@gosmartclassroom.com", from);
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
         messageHelper.setText(content, true);

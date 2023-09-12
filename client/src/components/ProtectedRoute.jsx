@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../App";
+import { APP_BACKEND } from "../config/constant";
 
 export const ProtectedRoute = ({ children }) => {
   // hooks
@@ -14,7 +15,7 @@ export const ProtectedRoute = ({ children }) => {
   const { token, setToken } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch("http://localhost:7060/auth/get-token", {
+    fetch(APP_BACKEND + "/auth/get-token", {
       credentials: "include",
     }).then(async (response) => {
       if (response.ok) {

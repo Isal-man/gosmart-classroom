@@ -25,6 +25,7 @@ import { api } from "../services/ApiService";
 import { useEffect } from "react";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import { APP_BACKEND } from "../config/constant";
 
 export const Header = () => {
   // context
@@ -99,7 +100,7 @@ export const Header = () => {
   const handleJoin = async () => {
     setIsLoading(true);
     const requestJoin = await api.get(
-      "api/v1/courses/join-course?cc=" + courseCode + "&email=" + user?.email,
+      "/api/v1/courses/join-course?cc=" + courseCode + "&email=" + user?.email,
       token
     );
     const result = await requestJoin.text();
@@ -118,7 +119,7 @@ export const Header = () => {
       formData.append("file", e.target.files[0]);
 
       const upload = await axios.post(
-        "http://localhost:7060/api/v1/upload",
+        APP_BACKEND + "/api/v1/upload",
         formData
       );
 
@@ -134,7 +135,7 @@ export const Header = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true)
-    const request = await api.post("api/v1/courses", token, newCourse);
+    const request = await api.post("/api/v1/courses", token, newCourse);
 
     if (request.status !== 200) {
       alert("Kursus gagal dibuat");
@@ -166,13 +167,7 @@ export const Header = () => {
         </section>
         <section className={"flex justify-center items-center gap-4"}>
           <button className={buttonStyle} onClick={handleSectionClassStyle}>
-            <BsPlusCircle />
-          </button>
-          <button className={buttonStyle} onClick={handleSectionClassStyle}>
-            <BsGlobe />
-          </button>
-          <button className={buttonStyle} onClick={handleSectionClassStyle}>
-            <BsFillMoonStarsFill />
+            <AiOutlinePlus />
           </button>
         </section>
       </header>

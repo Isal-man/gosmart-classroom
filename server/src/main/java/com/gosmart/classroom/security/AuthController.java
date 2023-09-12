@@ -79,11 +79,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email already registered");
         }
 
-        // // Check if validation errors
-        // if (bindingResult.hasErrors()) {
-        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        // }
-
 
         // Generate token for verification
         Token token = new Token();
@@ -185,7 +180,7 @@ public class AuthController {
         userRepository.save(users);
         tokenRepository.delete(tokenUser);
 
-        return new RedirectView("http://localhost:5173/");
+        return new RedirectView("https://localhost:5173/login");
     }
 
     /*
@@ -196,11 +191,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest,
                                                  BindingResult bindingResult, HttpServletResponse response) throws JwtException {
-
-        // // Check if validation errors
-        // if (bindingResult.hasErrors()) {
-        //     return ResponseEntity.badRequest().body(createValidationErrorResponseBody(bindingResult));
-        // }
 
         // Authenticate user with loginRequest
         Authentication authentication = authenticationManager.authenticate(
@@ -295,10 +285,4 @@ public class AuthController {
 
         return ResponseEntity.badRequest().body(errors);
     }
-
-    // @Override
-    // @GetMapping("/oauth")
-    // public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-    //
-    // }
 }

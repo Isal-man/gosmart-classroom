@@ -14,11 +14,10 @@ spring:
           facebook:
             client-id: 1042785953547646
             client-secret: dfd47f84b2b3f26cb98d624efe205197
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/gosmart
-    username: postgres
-    password: islman123
+    url: jdbc:postgresql://gosmart-server.postgres.database.azure.com:5432/gosmart
+    username: isal_man@gosmart-server
+    password: asil_nam123
   jpa:
     generate-ddl: true
     hibernate:
@@ -41,6 +40,8 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  main:
+    allow-bean-definition-overriding: true
 
 jwt:
   secret: 7e92a0869758b34adae27ec76e5be94147f391cb0c749a5505a089330275c1712c94aba4f1183d8763ab310dd34fc40a38b61524b2840b2afa1b03973e52f5bf
@@ -54,6 +55,20 @@ firebase:
   messagingSenderId: 903743303368
   appId: 1:903743303368:web:7dfc079f906142b9d77ffd
   measurementId: G-FSTMF7PMJS
+
+azure:
+  activedirectory:
+    tenant-id: 4ba4ff22-b59f-42b7-a3e2-4eb7a7f6cd90
+    client-id: ff944aac-e822-4e53-9954-7fc641745b50
+    client-secret: LuP8Q~lPiQQwh-XjFFJnCSBl_nSwEwDG~xESfawS
+    user-group:
+      allowed-group: group1
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        host: localhost:7060
 
 
 
