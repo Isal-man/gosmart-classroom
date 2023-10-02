@@ -9,15 +9,15 @@ spring:
       client:
         registration:
           google:
-            client-id: 903743303368-086nrbqmpogmd6tt6ofo73buk7svqtjs.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${google-clientId}
+            client-secret: ${google-clientSecret}
           facebook:
-            client-id: 1042785953547646
-            client-secret: dfd47f84b2b3f26cb98d624efe205197
+            client-id: ${facebook-clientId}
+            client-secret: ${google-clientSecret}
   datasource:
-    url: jdbc:postgresql://gosmart-server.postgres.database.azure.com:5432/gosmart
-    username: isal_man@gosmart-server
-    password: asil_nam123
+    url: ${spring-db-url}
+    username: ${spring-db-username}
+    password: ${spring-db-password}
   jpa:
     generate-ddl: true
     hibernate:
@@ -28,8 +28,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: gosmartclassroom@gmail.com
-    password: dcta vzng efig swup
+    username: ${smtp-username}
+    password: ${smtp-password}
     properties:
       mail:
         smtp:
@@ -44,23 +44,23 @@ spring:
     allow-bean-definition-overriding: true
 
 jwt:
-  secret: 7e92a0869758b34adae27ec76e5be94147f391cb0c749a5505a089330275c1712c94aba4f1183d8763ab310dd34fc40a38b61524b2840b2afa1b03973e52f5bf
+  secret: ${jwt-secret}
   expiration: 864000000
 
 firebase:
-  apiKey: AIzaSyDZ1_MZDHuwyFL5_rGObKR6g2uIgPsGx1I
-  authDomain: gosmart-classroom.firebaseapp.com
-  projectId: gosmart-classroom
-  storageBucket: gosmart-classroom.appspot.com
-  messagingSenderId: 903743303368
-  appId: 1:903743303368:web:7dfc079f906142b9d77ffd
-  measurementId: G-FSTMF7PMJS
+  apiKey: ${firebase-apiKey}
+  authDomain: ${firebase-authDomain}
+  projectId: ${firebase-projectId}
+  storageBucket: ${firebase-storageBucket}
+  messagingSenderId: ${firebase-messagingSenderId}
+  appId: ${firebase-appId}
+  measurementId: ${firebase-measurementId}
 
 azure:
   activedirectory:
-    tenant-id: 4ba4ff22-b59f-42b7-a3e2-4eb7a7f6cd90
-    client-id: ff944aac-e822-4e53-9954-7fc641745b50
-    client-secret: LuP8Q~lPiQQwh-XjFFJnCSBl_nSwEwDG~xESfawS
+    tenant-id: ${azure-ad-tenantId}
+    client-id: ${azure-ad-clientId}
+    client-secret: ${azure-ad-clientSecret}
     user-group:
       allowed-group: group1
 
@@ -69,6 +69,3 @@ springfox:
     swagger:
       v2:
         host: localhost:7060
-
-
-
